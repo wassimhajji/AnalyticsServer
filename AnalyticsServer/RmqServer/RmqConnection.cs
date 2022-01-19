@@ -13,6 +13,7 @@ namespace AnalyticsServer.RmqServer
             using var Connection = factory.CreateConnection();
             using var channel = Connection.CreateModel();
             SlaveExchangeHW.Consume(channel);   
+            SlaveExchangeStreams.Consume(channel);
 
 
         }
