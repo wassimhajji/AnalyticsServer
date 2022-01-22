@@ -1,5 +1,4 @@
 ﻿using AnalyticsServer.Cache;
-using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -10,20 +9,20 @@ using System.Text;
 
 namespace AnalyticsServer.RmqServer
 {
-    public class SlaveHWConsumer : BackgroundService
+    public class StreamsConsumer : BackgroundService
     {
         private readonly string exchangeName = "SlaveExchange";
-        private readonly string queueName = "HWConsumer";
-        private readonly string topicKey = "Slave.HW.Key";
+        private readonly string queueName = "StrmConsumer";
+        private readonly string topicKey = "Slave.Stream.Key";
 
-        private void ListenForHardwearEvents(CancellationToken stoppingToken)
+        private void ListenForStreamsEvents(CancellationToken stoppingToken)
         {
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    using var connection = GetConnection();
-                    using var channel = connection.CreateModel();
+                    var connection = GetConnection();
+                    var channel = connection.CreateModel();
                     var message = new object();
                     channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
                     channel.QueueDeclare(queueName, true, true, true);
@@ -32,22 +31,25 @@ namespace AnalyticsServer.RmqServer
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (sender, e) =>
                     {
+                       
                         try
                         {
-
-                            var body = Encoding.UTF8.GetString(e.Body.ToArray());
-                            var message = JsonConvert.DeserializeObject<HWModel>(body);
+                            var body = Encoding.UTF8.GetString(e.Body.ToArray());                            
+                            var message = JsonConvert.DeserializeObject<StreamMessages>(body);
                             if (message == null) return;
-                            ServerCache.UpdateServerHardwear(message);
+                            ServerCache.UpdateServerStreams(message);
+                            Console.WriteLine(message);
                         }
                         catch (Exception ex)
                         {
+
                             Console.WriteLine(ex);
                         }
                         
+
                     };
-                    channel.BasicConsume(queueName,true,consumer);
-                    
+                    channel.BasicConsume(queueName, true, consumer);
+
                     while (!stoppingToken.IsCancellationRequested) await Task.Delay(1000, stoppingToken);
                 }
                 catch (Exception ex)
@@ -58,9 +60,16 @@ namespace AnalyticsServer.RmqServer
                     await Task.Delay(5000, stoppingToken);
                     await ListenForUsersEventsAsync(stoppingToken);
                 }
-            },stoppingToken);
-            
-            
+            }, stoppingToken);
+
+
+        }
+
+        private IConnection GetConnection()
+        {
+            var factory = new ConnectionFactory();
+            factory.Uri = new Uri("amqp://WQK56CEwyKn7Dgpp:Mev9LAc9uP8AK8FK@20.188.60.149:5672");
+            return factory.CreateConnection();
         }
 
         private async Task ListenForUsersEventsAsync(CancellationToken stoppingToken)
@@ -70,24 +79,15 @@ namespace AnalyticsServer.RmqServer
                 await Task.Delay(5000, stoppingToken);
             }
         }
+           
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            ListenForHardwearEvents(stoppingToken);
+            ListenForStreamsEvents(stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(5000, stoppingToken);
             }
         }
-
-        private IConnection GetConnection()
-        {
-            var factory = new ConnectionFactory();
-            factory.Uri = new Uri("amqp://WQK56CEwyKn7Dgpp:Mev9LAc9uP8AK8FK@20.188.60.149:5672");
-            return factory.CreateConnection(); 
-        }     
-        
     }
-
 }
- 
