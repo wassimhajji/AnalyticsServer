@@ -3,9 +3,9 @@
     public class StreamMessages
     {
         public string? SlaveId { get; set; }
-        public List<StreamState>? Stream { get; set; }
+        public List<StreamMessage>? Streams { get; set; }
     }
-    public class StreamState
+    public class StreamMessage
     {
         public int StreamId { get; set; }
         public int State { get; set; }

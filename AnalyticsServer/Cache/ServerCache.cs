@@ -29,12 +29,12 @@ namespace AnalyticsServer.Cache
             return Servers;
         }
 
-        internal static void UpdateServerStreams(StreamMessages model)
+       /* internal static void UpdateServerStreams(StreamMessages model)
         {
             if (model == null) return;
             if (string.IsNullOrWhiteSpace(model.SlaveId)) return;
             if(model.Stream == null) return;
             var newState = new StreamState { SlaveId = model.SlaveId,   model };
-        }
+        }*/
     }
 }

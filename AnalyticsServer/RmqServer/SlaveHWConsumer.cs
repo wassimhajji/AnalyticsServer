@@ -1,23 +1,33 @@
 ﻿using AnalyticsServer.Cache;
+using AnalyticsServer.Channels;
 using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Collections;
 using System.Text;
+using System.Threading.Channels;
 
 namespace AnalyticsServer.RmqServer
 {
     public class SlaveHWConsumer : BackgroundService
     {
+         
         private readonly string exchangeName = "SlaveExchange";
         private readonly string queueName = "HWConsumer";
         private readonly string topicKey = "Slave.HW.Key";
+        
+        
 
-        private void ListenForHardwearEvents(CancellationToken stoppingToken)
-        {
+       
+
+        private void ListenForHardwearEvents(CancellationToken stoppingToken,[FromServices] Channel<HWModel> _channel)
+        { 
+            
+
             _ = Task.Run(async () =>
             {
                 try
@@ -39,6 +49,8 @@ namespace AnalyticsServer.RmqServer
                             var message = JsonConvert.DeserializeObject<HWModel>(body);
                             if (message == null) return;
                             ServerCache.UpdateServerHardwear(message);
+                            _channel.Writer.WriteAsync(message); 
+                            //_channel.Writer.TryWrite(message);
                         }
                         catch (Exception ex)
                         {
@@ -63,6 +75,11 @@ namespace AnalyticsServer.RmqServer
             
         }
 
+        private object HWChannel<T>()
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task ListenForUsersEventsAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -71,9 +88,10 @@ namespace AnalyticsServer.RmqServer
             }
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected  async Task ExecuteAsync(CancellationToken stoppingToken, [FromServices] Channel<HWModel> _channel)
         {
-            ListenForHardwearEvents(stoppingToken);
+            
+            ListenForHardwearEvents(stoppingToken, _channel);
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(5000, stoppingToken);
@@ -85,8 +103,22 @@ namespace AnalyticsServer.RmqServer
             var factory = new ConnectionFactory();
             factory.Uri = new Uri("amqp://WQK56CEwyKn7Dgpp:Mev9LAc9uP8AK8FK@20.188.60.149:5672");
             return factory.CreateConnection(); 
-        }     
-        
+        }
+
+        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(5000, stoppingToken);
+            }
+        }
+        public async Task SendMessage(Channel<HWModel> _channel)
+        {
+            var message = await _channel.Reader.ReadAsync();
+
+
+            Console.WriteLine(message);
+        }
     }
 
 }

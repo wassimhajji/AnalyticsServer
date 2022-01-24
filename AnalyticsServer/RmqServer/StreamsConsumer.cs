@@ -1,4 +1,5 @@
 ﻿using AnalyticsServer.Cache;
+using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -35,10 +36,10 @@ namespace AnalyticsServer.RmqServer
                         try
                         {
                             var body = Encoding.UTF8.GetString(e.Body.ToArray());                            
-                            var message = JsonConvert.DeserializeObject<StreamMessages>(body);
+                            var message = JsonConvert.DeserializeObject<StreamModel>(body);
                             if (message == null) return;
-                            ServerCache.UpdateServerStreams(message);
-                            Console.WriteLine(message);
+                            StreamCache.UpdateServerStream(message);
+                            //Console.WriteLine(message);
                         }
                         catch (Exception ex)
                         {
