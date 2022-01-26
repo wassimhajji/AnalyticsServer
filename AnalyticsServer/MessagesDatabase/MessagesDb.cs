@@ -7,28 +7,11 @@ namespace AnalyticsServer.MessagesDatabase
     {
         public MessagesDb(DbContextOptions options) : base(options) { }
 
-        public DbSet<HWModel>? Hardware { get; set; }
+        public DbSet<Hardware>? Hardware { get; set; }
 
           
         
 
-       /* protected override void OnModelCreating (ModelBuilder builder)
-        {
-
-            base.OnModelCreating(builder);
-            builder.Entity<HWModel>();
-
-
-            builder.Entity<HWModel>()
-                    .HasData(
-                    new HWModel
-                    {
-                        Total = 
-
-
-
-                    });
-
-        }*/
+       
     }
 }

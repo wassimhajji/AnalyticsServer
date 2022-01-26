@@ -1,5 +1,5 @@
 ﻿using AnalyticsServer.Cache;
-using AnalyticsServer.Channels;
+
 using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +19,23 @@ namespace AnalyticsServer.RmqServer
         private readonly string exchangeName = "SlaveExchange";
         private readonly string queueName = "HWConsumer";
         private readonly string topicKey = "Slave.HW.Key";
-        
-        
 
-       
+        private readonly ChannelWriter<HWModel> _channelWriter;
 
-        private void ListenForHardwearEvents(CancellationToken stoppingToken,[FromServices] Channel<HWModel> _channel)
-        { 
-            
+        public SlaveHWConsumer(Channel<HWModel> _channel)
+        {
+            _channelWriter = _channel.Writer;
+        }
+
+
+
+
+
+        private void ListenForHardwearEvents(CancellationToken stoppingToken)
+        {
+
+             
+
 
             _ = Task.Run(async () =>
             {
@@ -40,7 +49,7 @@ namespace AnalyticsServer.RmqServer
                     channel.QueueBind(queueName, exchangeName, topicKey);
 
                     var consumer = new EventingBasicConsumer(channel);
-                    consumer.Received += (sender, e) =>
+                    consumer.Received +=  (sender, e) =>
                     {
                         try
                         {
@@ -48,9 +57,14 @@ namespace AnalyticsServer.RmqServer
                             var body = Encoding.UTF8.GetString(e.Body.ToArray());
                             var message = JsonConvert.DeserializeObject<HWModel>(body);
                             if (message == null) return;
+                            Console.WriteLine(message);
                             ServerCache.UpdateServerHardwear(message);
-                            _channel.Writer.WriteAsync(message); 
-                            //_channel.Writer.TryWrite(message);
+                                        
+                            _channelWriter.WriteAsync(message);
+                                                        
+
+                            
+
                         }
                         catch (Exception ex)
                         {
@@ -68,36 +82,18 @@ namespace AnalyticsServer.RmqServer
                     Console.WriteLine("Disconnect from rabbitmq");
                     Console.WriteLine(ex);
                     await Task.Delay(5000, stoppingToken);
-                    await ListenForUsersEventsAsync(stoppingToken);
+                     ListenForHardwearEvents(stoppingToken);
                 }
             },stoppingToken);
             
             
         }
 
-        private object HWChannel<T>()
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        private async Task ListenForUsersEventsAsync(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Task.Delay(5000, stoppingToken);
-            }
-        }
+        
 
-        protected  async Task ExecuteAsync(CancellationToken stoppingToken, [FromServices] Channel<HWModel> _channel)
-        {
-            
-            ListenForHardwearEvents(stoppingToken, _channel);
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Task.Delay(5000, stoppingToken);
-            }
-        }
-
+        
         private IConnection GetConnection()
         {
             var factory = new ConnectionFactory();
@@ -105,20 +101,23 @@ namespace AnalyticsServer.RmqServer
             return factory.CreateConnection(); 
         }
 
-        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+             
+            ListenForHardwearEvents(stoppingToken);
+            
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(5000, stoppingToken);
+                
             }
         }
-        public async Task SendMessage(Channel<HWModel> _channel)
+
+        public async Task Publisher([FromServices] Channel<HWModel> _channel, HWModel model)
         {
-            var message = await _channel.Reader.ReadAsync();
-
-
-            Console.WriteLine(message);
+            await _channel.Writer.WriteAsync(model);
         }
+
     }
 
 }

@@ -16,6 +16,8 @@ namespace AnalyticsServer.Controllers
         {
             return Ok(ServerCache.GetAllServers());
         }
+        
+        
        
     }
 }
