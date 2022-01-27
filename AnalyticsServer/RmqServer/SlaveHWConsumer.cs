@@ -57,20 +57,16 @@ namespace AnalyticsServer.RmqServer
                             var body = Encoding.UTF8.GetString(e.Body.ToArray());
                             var message = JsonConvert.DeserializeObject<HWModel>(body);
                             if (message == null) return;
-                            Console.WriteLine(message);
+                            var msg = message.State;
+                            //Console.WriteLine(msg);
                             ServerCache.UpdateServerHardwear(message);
                                         
                             _channelWriter.WriteAsync(message);
-                                                        
-
-                            
-
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex);
-                        }
-                        
+                        }                        
                     };
                     channel.BasicConsume(queueName,true,consumer);
                     

@@ -1,7 +1,10 @@
-﻿namespace AnalyticsServer.MessagesDatabase
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AnalyticsServer.MessagesDatabase
 {
     public class Hardware
     {
+        [Key]
         public string SlaveId { get; set; }
         public double CpuUser { get; set; }
         public double CpuNice { get; set; }
@@ -23,12 +26,7 @@
         public string IOTime { get; set; }
         public int IODiskRead { get; set; }
         public int IODiskWrite { get; set; }
-        public string DiskFileSystem { get; set; }
-        public string DiskSize { get; set; }
-        public string DiskUsed { get; set; }
-        public string DiskAvailable { get; set; }
-        public string DiskUse { get; set; }
-        public string DiskMontedOn { get; set; }
+        
 
     }
 }

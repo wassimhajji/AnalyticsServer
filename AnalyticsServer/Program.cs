@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Channels;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
@@ -16,8 +17,13 @@ builder.Services.AddSingleton<Channel<HWModel>>(_ => Channel.CreateUnbounded<HWM
 builder.Services.AddHostedService<SlaveHWConsumer>();
 //builder.Services.AddHostedService<HWDbService>();
 
-var connectionStrings = builder.Configuration.GetConnectionString("AppDb");
-builder.Services.AddDbContext<MessagesDb>(x => x.UseSqlServer(connectionStrings));
+//var connectionString = builder.Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=StatsDatabase;Trusted_Connection=True;MultipleActiveResultSets=true");
+//Console.WriteLine(connectionString);
+builder.Services.AddDbContext<MessagesDb>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 
 var app = builder.Build();
 
