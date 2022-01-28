@@ -10,41 +10,35 @@ namespace AnalyticsServer.Controllers
     public class HomeController : Controller
     {
         private readonly ChannelReader<HWModel> _channelReader;
-       // private ModelBuilder _modelBuilder;
+        private ModelBuilder _modelBuilder; 
+        private MessagesDb _context; 
 
-        public HomeController(Channel<HWModel> channel)
+        
+
+        public HomeController(Channel<HWModel> channel, ModelBuilder modelBuilder, MessagesDb context)
         {
             _channelReader = channel.Reader;
+            _modelBuilder = modelBuilder;
+            _context = context; 
+              
+            
             
         }
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
-            try
-            {
-                while (await _channelReader.WaitToReadAsync(stoppingToken))
-                {
 
-                    var message = _channelReader.ReadAsync(stoppingToken);
-                    //return Ok(message);
-                    //return Ok(message.Result);
-                    var msg = message.Result;
-                    Console.WriteLine(msg.SlaveId);
-                    return Ok(msg.SlaveId);
+
+            var msg = await _channelReader.ReadAsync(stoppingToken);
+            
+
+            Console.WriteLine($"here is the state : {msg.State.Ram}");
+            
+                _context.SaveChanges();
+            
 
 
 
-
-                }
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine($"exception occured :  {ex}");
-            }
-
-
-
-            return Ok(true);
+            return Ok(msg);
 
             
         }

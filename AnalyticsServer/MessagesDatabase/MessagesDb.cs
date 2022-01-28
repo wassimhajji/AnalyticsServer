@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AnalyticsServer.DbHostedServices;
+using Microsoft.EntityFrameworkCore;
 using System.Collections;
 
 namespace AnalyticsServer.MessagesDatabase
@@ -10,7 +11,6 @@ namespace AnalyticsServer.MessagesDatabase
         public DbSet<Hardware>? Hardware { get; set; }
 
           
-        
 
        
     }
