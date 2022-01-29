@@ -30,7 +30,5 @@ namespace AnalyticsServer.Cache
         {
             return Servers;
         }
-
-
     }
 }

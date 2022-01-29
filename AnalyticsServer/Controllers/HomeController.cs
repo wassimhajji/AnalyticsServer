@@ -15,14 +15,11 @@ namespace AnalyticsServer.Controllers
 
         
 
-        public HomeController(Channel<HWModel> channel, ModelBuilder modelBuilder, MessagesDb context)
+        public HomeController(Channel<HWModel> channel, MessagesDb context)
         {
             _channelReader = channel.Reader;
-            _modelBuilder = modelBuilder;
+            
             _context = context; 
-              
-            
-            
         }
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
@@ -32,15 +29,8 @@ namespace AnalyticsServer.Controllers
             
 
             Console.WriteLine($"here is the state : {msg.State.Ram}");
-            
-                _context.SaveChanges();
-            
-
-
-
+            _context.SaveChanges();
             return Ok(msg);
-
-            
         }
     }
 }

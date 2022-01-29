@@ -11,8 +11,6 @@ using System.Threading.Channels;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-
-
 builder.Services.AddSingleton<Channel<HWModel>>(_ => Channel.CreateUnbounded<HWModel>());
 builder.Services.AddHostedService<SlaveHWConsumer>();
 builder.Services.AddHostedService<HWDbService>();
@@ -23,6 +21,9 @@ builder.Services.AddDbContext<MessagesDb>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+
+
 
 
 var app = builder.Build();
