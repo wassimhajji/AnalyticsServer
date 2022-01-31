@@ -12,8 +12,9 @@ using System.Threading.Channels;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<Channel<HWModel>>(_ => Channel.CreateUnbounded<HWModel>());
-builder.Services.AddHostedService<SlaveHWConsumer>();
-builder.Services.AddHostedService<HWDbService>();
+//builder.Services.AddHostedService<SlaveHWConsumer>();
+builder.Services.AddHostedService<StreamsConsumer>();
+//builder.Services.AddHostedService<HWDb>();
 
 //var connectionString = builder.Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=StatsDatabase;Trusted_Connection=True;MultipleActiveResultSets=true");
 //Console.WriteLine(connectionString);

@@ -27,16 +27,8 @@ namespace AnalyticsServer.RmqServer
             _channelWriter = _channel.Writer;
         }
 
-
-
-
-
         private void ListenForHardwearEvents(CancellationToken stoppingToken)
-        {
-
-             
-
-
+        {   
             _ = Task.Run(async () =>
             {
                 try
@@ -58,7 +50,7 @@ namespace AnalyticsServer.RmqServer
                             var message = JsonConvert.DeserializeObject<HWModel>(body);
                             if (message == null) return;
                             var msg = message.State;
-                            //Console.WriteLine(msg);
+                            Console.WriteLine(msg.Disks);
                             ServerCache.UpdateServerHardwear(message);
                                         
                             _channelWriter.WriteAsync(message);
@@ -84,12 +76,6 @@ namespace AnalyticsServer.RmqServer
             
             
         }
-
-        
-
-        
-
-        
         private IConnection GetConnection()
         {
             var factory = new ConnectionFactory();

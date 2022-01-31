@@ -5,6 +5,7 @@ namespace AnalyticsServer.MessagesDatabase
     public class Hardware
     {
         [Key]
+        public Guid Id { get; set; }
         public string SlaveId { get; set; }
         public double CpuUser { get; set; }
         public double CpuNice { get; set; }

@@ -7,6 +7,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Collections;
 using System.Text;
+using System.Threading.Channels;
 
 namespace AnalyticsServer.RmqServer
 {
@@ -15,6 +16,8 @@ namespace AnalyticsServer.RmqServer
         private readonly string exchangeName = "SlaveExchange";
         private readonly string queueName = "StrmConsumer";
         private readonly string topicKey = "Slave.Stream.Key";
+
+        //private readonly ChannelWriter<HWModel> _channelWriter;
 
         private void ListenForStreamsEvents(CancellationToken stoppingToken)
         {
@@ -39,7 +42,10 @@ namespace AnalyticsServer.RmqServer
                             var message = JsonConvert.DeserializeObject<StreamModel>(body);
                             if (message == null) return;
                             StreamCache.UpdateServerStream(message);
-                            //Console.WriteLine(message);
+                            Console.WriteLine(message.streamState);
+                            
+                            
+                            
                         }
                         catch (Exception ex)
                         {

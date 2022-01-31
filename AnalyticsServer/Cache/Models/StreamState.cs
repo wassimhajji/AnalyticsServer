@@ -5,7 +5,7 @@ namespace AnalyticsServer.Cache.Models
 {
     public class StreamState
     {
-        public int StreamId { get; set; }    
+        public string SlaveId { get; set; }    
         public StreamModel? stream { get; set; }
     }
 }

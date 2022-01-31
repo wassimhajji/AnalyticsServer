@@ -9,9 +9,15 @@ namespace AnalyticsServer.MessagesDatabase
         public MessagesDb(DbContextOptions options) : base(options) { }
 
         public DbSet<Hardware>? Hardware { get; set; }
+        public DbSet<HardwareDisks>? HardwareDisks { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HardwareDisks>()
+                .HasKey(o => new { o.SlaveId, o.FileSystem });
+        }
 
-          
 
-       
+
+
     }
 }

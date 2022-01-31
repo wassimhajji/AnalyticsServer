@@ -4,6 +4,7 @@ using AnalyticsServer.MessagesDatabase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnalyticsServer.Migrations
 {
     [DbContext(typeof(MessagesDb))]
-    partial class MessagesDbModelSnapshot : ModelSnapshot
+    [Migration("20220131134822_Disks")]
+    partial class Disks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,13 +102,15 @@ namespace AnalyticsServer.Migrations
 
             modelBuilder.Entity("AnalyticsServer.MessagesDatabase.HardwareDisks", b =>
                 {
-                    b.Property<string>("SlaveId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FileSystem")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("DiskId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Available")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileSystem")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -118,6 +122,10 @@ namespace AnalyticsServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SlaveId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Use")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -126,7 +134,7 @@ namespace AnalyticsServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SlaveId", "FileSystem");
+                    b.HasKey("DiskId");
 
                     b.ToTable("HardwareDisks");
                 });
