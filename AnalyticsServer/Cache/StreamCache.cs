@@ -15,12 +15,12 @@ namespace AnalyticsServer.Cache
             if (model.State == null) return;
             var newState = new StreamState { SlaveId = model.SlaveId, stream = model};  
 
-            if ( Streams.TryGetValue(model.SlaveId.ToString(), out var state))
+            if ( Streams.TryGetValue(model.SlaveId, out var state))
             {
-                Streams.TryUpdate(model.SlaveId.ToString(), newState , state);
+                Streams.TryUpdate(model.SlaveId, newState , state);
                 return;
             }
-            Streams.TryAdd(model.SlaveId.ToString(), newState);   
+            Streams.TryAdd(model.SlaveId, newState);   
         }
         public static ConcurrentDictionary<string, Models.StreamState> GetAllStreams()
         {

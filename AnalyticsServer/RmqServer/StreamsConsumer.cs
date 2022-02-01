@@ -49,6 +49,7 @@ namespace AnalyticsServer.RmqServer
                             var message = JsonConvert.DeserializeObject<StreamMessages>(body);
                             //Console.WriteLine(message.State);
                             if (message == null) return;
+                            StreamCache.UpdateServerStream(message);
                             // var msg = message;
                             _channelWriter.WriteAsync(message);
 
