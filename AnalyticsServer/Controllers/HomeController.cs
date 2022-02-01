@@ -1,4 +1,5 @@
 ﻿using AnalyticsServer.MessagesDatabase;
+using AnalyticsServer.MessagesModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Channels;
@@ -9,13 +10,13 @@ namespace AnalyticsServer.Controllers
     [ApiController]
     public class HomeController : Controller
     {
-        private readonly ChannelReader<HWModel> _channelReader;
+        private readonly ChannelReader<StreamMessages> _channelReader;
         private ModelBuilder _modelBuilder; 
         private MessagesDb _context; 
 
         
 
-        public HomeController(Channel<HWModel> channel, MessagesDb context)
+        public HomeController(Channel<StreamMessages> channel, MessagesDb context)
         {
             _channelReader = channel.Reader;
             
@@ -27,9 +28,9 @@ namespace AnalyticsServer.Controllers
 
             var msg = await _channelReader.ReadAsync(stoppingToken);
             
-
-            Console.WriteLine($"here is the state : {msg.State.Ram}");
-            _context.SaveChanges();
+           // Console.WriteLine(msg); 
+           // Console.WriteLine($"here is the state : {msg.State.Ram}");
+            //_context.SaveChanges();
             return Ok(msg);
         }
     }

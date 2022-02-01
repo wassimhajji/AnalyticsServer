@@ -1,10 +1,11 @@
 ﻿namespace AnalyticsServer.MessagesDatabase
 {
-    
-    public class streamState
+    public class Stream
     {
+        public Guid Id { get; set; }    
+        public string SlaveId { get; set; }
         public int StreamId { get; set; }
-        public int State { get; set; }
+        public int state { get; set; }
         public string CurrentSource { get; set; }
         public string VideoBitrate { get; set; }
         public string AudioBitrate { get; set; }
@@ -15,10 +16,5 @@
         public string Height { get; set; }
         public string Fps { get; set; }
         public string Speed { get; set; }
-    }
-    public class StreamModel
-    {
-        public string SlaveId { get; set; }
-        public List<streamState> streamState { get; set; }
     }
 }

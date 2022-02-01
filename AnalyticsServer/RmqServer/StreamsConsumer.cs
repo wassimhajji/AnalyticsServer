@@ -17,7 +17,12 @@ namespace AnalyticsServer.RmqServer
         private readonly string queueName = "StrmConsumer";
         private readonly string topicKey = "Slave.Stream.Key";
 
-        //private readonly ChannelWriter<HWModel> _channelWriter;
+        private readonly ChannelWriter<StreamMessages> _channelWriter;
+
+        public StreamsConsumer(Channel<StreamMessages> _channel)
+        {
+            _channelWriter = _channel.Writer;
+        }
 
         private void ListenForStreamsEvents(CancellationToken stoppingToken)
         {
@@ -38,11 +43,24 @@ namespace AnalyticsServer.RmqServer
                        
                         try
                         {
+                            StreamMessages model = new StreamMessages();
+                            
                             var body = Encoding.UTF8.GetString(e.Body.ToArray());                            
-                            var message = JsonConvert.DeserializeObject<StreamModel>(body);
+                            var message = JsonConvert.DeserializeObject<StreamMessages>(body);
+                            //Console.WriteLine(message.State);
                             if (message == null) return;
-                            StreamCache.UpdateServerStream(message);
-                            Console.WriteLine(message.streamState);
+                            // var msg = message;
+                            _channelWriter.WriteAsync(message);
+
+                            /*foreach (var item in message.State)
+                            {
+                                Console.WriteLine(item.CurrentSource);
+                            }*/
+
+                            //StreamCache.UpdateServerStream(message);
+                           
+                            //Console.WriteLine(model);
+                            
                             
                             
                             

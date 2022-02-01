@@ -1,14 +1,9 @@
 ﻿namespace AnalyticsServer.MessagesModels
 {
-    public class StreamMessages
-    {
-        public string? SlaveId { get; set; }
-        public List<StreamMessage>? Streams { get; set; }
-    }
-    public class StreamMessage
+    public class State
     {
         public int StreamId { get; set; }
-        public int State { get; set; }
+        public int state { get; set; }
         public string CurrentSource { get; set; }
         public string VideoBitrate { get; set; }
         public string AudioBitrate { get; set; }
@@ -20,4 +15,11 @@
         public string Fps { get; set; }
         public string Speed { get; set; }
     }
+
+    public class StreamMessages
+    {
+        public string SlaveId { get; set; }
+        public List<State> State { get; set; }
+    }
+
 }

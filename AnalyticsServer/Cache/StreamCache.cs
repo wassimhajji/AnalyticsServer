@@ -8,11 +8,11 @@ namespace AnalyticsServer.Cache
     public class StreamCache
     {
         private static ConcurrentDictionary<string, Models.StreamState> Streams = new();
-        internal static void UpdateServerStream(StreamModel model)
+        internal static void UpdateServerStream(StreamMessages model)
         {
             if (model == null) return;
             if (string.IsNullOrWhiteSpace(model.SlaveId.ToString())) return;
-            if (model.streamState == null) return;
+            if (model.State == null) return;
             var newState = new StreamState { SlaveId = model.SlaveId, stream = model};  
 
             if ( Streams.TryGetValue(model.SlaveId.ToString(), out var state))

@@ -10,10 +10,14 @@ namespace AnalyticsServer.MessagesDatabase
 
         public DbSet<Hardware>? Hardware { get; set; }
         public DbSet<HardwareDisks>? HardwareDisks { get; set; }
+        public DbSet<Stream>? Streams { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HardwareDisks>()
                 .HasKey(o => new { o.SlaveId, o.FileSystem });
+
+            modelBuilder.Entity<Stream>()
+                .HasKey(o => new { o.Id, o.SlaveId, o.StreamId });
         }
 
 
