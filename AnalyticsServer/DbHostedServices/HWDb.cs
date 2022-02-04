@@ -38,6 +38,7 @@ namespace AnalyticsServer.DbHostedServices
                     {
                         Id = Guid.NewGuid(),
                         SlaveId = msg.SlaveId,
+                        TimeAdded = DateTime.Now,
                         CpuUser = msg.State.Cpu.User,
                         CpuNice = msg.State.Cpu.Nice,
                         CpuSys = msg.State.Cpu.Sys,
@@ -77,6 +78,7 @@ namespace AnalyticsServer.DbHostedServices
                     foreach (var item in msg.State.Disks)
                     {
                         Disk.SlaveId = msg.SlaveId;
+                        Disk.TimeAdded = DateTime.Now;
                         Disk.FileSystem = item.FileSystem;
                         Disk.Size = item.Size;
                         Disk.Used = item.Used;  

@@ -31,6 +31,7 @@ namespace AnalyticsServer.DbHostedServices
                         {
                             Id = Guid.NewGuid(),
                             SlaveId = msg.SlaveId,
+                            TimeAdded = DateTime.Now,
                             StreamId = msg.State[0].StreamId,
                             state = msg.State[0].state,
                             CurrentSource = msg.State[0].CurrentSource,
@@ -49,6 +50,7 @@ namespace AnalyticsServer.DbHostedServices
                         {
                             Id = Guid.NewGuid(),
                             SlaveId = msg.SlaveId,
+                            TimeAdded = DateTime.Now,
                             StreamId = msg.State[1].StreamId,
                             state = msg.State[1].state,
                             CurrentSource = msg.State[1].CurrentSource,
@@ -67,6 +69,7 @@ namespace AnalyticsServer.DbHostedServices
                         {
                             Id = Guid.NewGuid(),
                             SlaveId = msg.SlaveId,
+                            TimeAdded = DateTime.Now,
                             StreamId = msg.State[2].StreamId,
                             state = msg.State[2].state,
                             CurrentSource = msg.State[2].CurrentSource,

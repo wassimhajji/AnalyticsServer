@@ -7,6 +7,7 @@ namespace AnalyticsServer.MessagesDatabase
         [Key]
         public Guid Id { get; set; }
         public string SlaveId { get; set; }
+        public DateTime TimeAdded { get; set; } 
         public double CpuUser { get; set; }
         public double CpuNice { get; set; }
         public double CpuSys { get; set; }

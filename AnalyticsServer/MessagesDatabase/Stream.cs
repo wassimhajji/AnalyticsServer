@@ -2,7 +2,8 @@
 {
     public class Stream
     {
-        public Guid Id { get; set; }    
+        public Guid Id { get; set; }  
+        public DateTime TimeAdded { get; set; } 
         public string SlaveId { get; set; }
         public int StreamId { get; set; }
         public int state { get; set; }

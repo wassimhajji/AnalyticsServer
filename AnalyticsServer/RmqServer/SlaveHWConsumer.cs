@@ -45,14 +45,12 @@ namespace AnalyticsServer.RmqServer
                     {
                         try
                         {
-
                             var body = Encoding.UTF8.GetString(e.Body.ToArray());
                             var message = JsonConvert.DeserializeObject<HWModel>(body);
                             if (message == null) return;
                             var msg = message.State;
                             Console.WriteLine(msg.Disks);
                             ServerCache.UpdateServerHardwear(message);
-                                        
                             _channelWriter.WriteAsync(message);
                         }
                         catch (Exception ex)
@@ -66,15 +64,12 @@ namespace AnalyticsServer.RmqServer
                 }
                 catch (Exception ex)
                 {
-
                     Console.WriteLine("Disconnect from rabbitmq");
                     Console.WriteLine(ex);
                     await Task.Delay(5000, stoppingToken);
                      ListenForHardwearEvents(stoppingToken);
                 }
             },stoppingToken);
-            
-            
         }
         private IConnection GetConnection()
         {
