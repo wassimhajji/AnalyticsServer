@@ -1,5 +1,6 @@
 ﻿using AnalyticsServer.Cache;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Concurrent;
 using System.Threading.Channels;
 
 namespace AnalyticsServer.Controllers
@@ -8,12 +9,14 @@ namespace AnalyticsServer.Controllers
     [ApiController]
     public class StreamStateController : Controller
     {
-        
-        
-       [HttpGet]
-       public IActionResult Get()
+       private static ConcurrentDictionary<string, MessagesModels.StreamMessages> Streams = new();
+
+
+        [HttpGet]
+       public IActionResult Get(int Id)
         {
-            return Ok(StreamCache.GetAllStreams());
+           return Ok(StreamCache.GetStreams(Id));
+
            
         }
     }

@@ -10,13 +10,13 @@ namespace AnalyticsServer.Controllers
     [ApiController]
     public class HomeController : Controller
     {
-        private readonly ChannelReader<StreamMessages> _channelReader;
+        private readonly ChannelReader<VodMessage> _channelReader;
         private ModelBuilder _modelBuilder; 
         private MessagesDb _context; 
 
         
 
-        public HomeController(Channel<StreamMessages> channel, MessagesDb context)
+        public HomeController(Channel<VodMessage> channel, MessagesDb context)
         {
             _channelReader = channel.Reader;
             

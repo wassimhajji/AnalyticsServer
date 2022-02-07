@@ -14,11 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<Channel<HWModel>>(_ => Channel.CreateUnbounded<HWModel>());
 builder.Services.AddSingleton<Channel<StreamMessages>>(_ => Channel.CreateUnbounded<StreamMessages>());
+builder.Services.AddSingleton<Channel<VodMessage>>(_ => Channel.CreateUnbounded<VodMessage>());
 //builder.Services.AddHostedService<SlaveHWConsumer>();
-builder.Services.AddHostedService<StreamsConsumer>();
-builder.Services.AddHostedService<UsersConnectionConsumer>();
-//builder.Services.AddHostedService<HWDb>();
-builder.Services.AddHostedService<StreamsDb>();
+//builder.Services.AddHostedService<StreamsConsumer>();
+//builder.Services.AddHostedService<UsersConnectionConsumer>();
+// builder.Services.AddHostedService<HWDb>();
+//builder.Services.AddHostedService<StreamsDb>();
+builder.Services.AddHostedService<VodConsumer>();
+builder.Services.AddHostedService<VodDb>();
 
 //var connectionString = builder.Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=StatsDatabase;Trusted_Connection=True;MultipleActiveResultSets=true");
 //Console.WriteLine(connectionString);
