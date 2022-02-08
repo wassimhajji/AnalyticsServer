@@ -14,7 +14,13 @@ namespace AnalyticsServer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            
             return Ok(ServerCache.GetAllServers());
+
+            //return Ok(ServerCache.ServerHardwear());
+
+
+
         }
         
         

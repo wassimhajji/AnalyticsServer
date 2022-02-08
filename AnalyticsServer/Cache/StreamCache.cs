@@ -35,8 +35,6 @@ namespace AnalyticsServer.Cache
         public static ConcurrentDictionary<string, MessagesModels.StreamMessages> GetAllStreams()
         {
             return Streams;
-            
-            
         }
         public static StreamUpdate GetStreams(int Id)
         {

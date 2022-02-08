@@ -1,5 +1,6 @@
 using AnalyticsServer.Cache.Models;
 using AnalyticsServer.DbHostedServices;
+using AnalyticsServer.HostedServices;
 using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
 using AnalyticsServer.RmqServer;
@@ -18,10 +19,11 @@ builder.Services.AddSingleton<Channel<VodMessage>>(_ => Channel.CreateUnbounded<
 //builder.Services.AddHostedService<SlaveHWConsumer>();
 //builder.Services.AddHostedService<StreamsConsumer>();
 //builder.Services.AddHostedService<UsersConnectionConsumer>();
-// builder.Services.AddHostedService<HWDb>();
+ //builder.Services.AddHostedService<HWDb>();
 //builder.Services.AddHostedService<StreamsDb>();
 builder.Services.AddHostedService<VodConsumer>();
 builder.Services.AddHostedService<VodDb>();
+//builder.Services.AddHostedService<GeneralUpdater>();
 
 //var connectionString = builder.Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=StatsDatabase;Trusted_Connection=True;MultipleActiveResultSets=true");
 //Console.WriteLine(connectionString);

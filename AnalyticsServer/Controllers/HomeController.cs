@@ -24,14 +24,13 @@ namespace AnalyticsServer.Controllers
         }
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
-
-
             var msg = await _channelReader.ReadAsync(stoppingToken);
             
-           // Console.WriteLine(msg); 
+            Console.WriteLine(msg);
+            return Ok(msg);
            // Console.WriteLine($"here is the state : {msg.State.Ram}");
             //_context.SaveChanges();
-            return Ok(msg);
+            //return Ok(Cache.GeneralCache.GetGeneral());
         }
     }
 }

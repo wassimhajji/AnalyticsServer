@@ -85,9 +85,8 @@ namespace AnalyticsServer.DbHostedServices
                         Disk.Available = item.Available;
                         Disk.Use = item.Use;
                         Disk.MontedOn = item.MontedOn;
-                        
-                    
                     };
+
                     if (free != Disk.Available)
                     {
                         await _db.HardwareDisks.AddAsync(Disk);
