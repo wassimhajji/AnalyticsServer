@@ -8,27 +8,30 @@ namespace AnalyticsServer.Cache
 {
     public class GeneralCache
     {
-        private static ConcurrentDictionary<string, GeneralState> General = new();
-        public static void UpdateGeneral(HWModel model, StreamsWorking StreamModel)
+        private static ConcurrentDictionary<string, SlaveState> General = new();
+        
+        public static void UpdateGeneral(SlaveState model)
         {
             if (model == null) return;
-            if (string.IsNullOrWhiteSpace(model.SlaveId)) return;
-            if (model.State == null) return;
+            
 
-            var newState = new GeneralState { SlaveId = model.SlaveId, Hardwear = model, Streams = StreamModel };
+            var  newState = new SlaveState { GeneralInfo = model.GeneralInfo , GeneralState = model.GeneralState  };
 
-            //var streams = StreamsWorkingCalculator(StreamModel);
 
-            if (General.TryGetValue(model.SlaveId, out var state))
+
+            if (General.TryGetValue(model.GeneralInfo.AvailableTotal, out var SlaveState))
             {
-                General.TryUpdate(model.SlaveId, newState, state);
+                General.TryUpdate("General State", newState, SlaveState);
                 return;
 
             }
 
-            General.TryAdd(model.SlaveId, newState);
+
+
+
+            General.TryAdd("General State", newState);
         }
-        public static ConcurrentDictionary<string, GeneralState> GetGeneral()
+        public static ConcurrentDictionary<string, SlaveState> GetGeneral()
         {
             return General;
         }

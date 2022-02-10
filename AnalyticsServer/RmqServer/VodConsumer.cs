@@ -42,7 +42,7 @@ namespace AnalyticsServer.RmqServer
                            var message = JsonConvert.DeserializeObject<VodMessage>(body);
                            if (message == null) return;
                            _channelWriter.WriteAsync(message);
-                           Console.WriteLine(message);
+                           //Console.WriteLine(message);
 
                        }
                        catch (Exception ex)

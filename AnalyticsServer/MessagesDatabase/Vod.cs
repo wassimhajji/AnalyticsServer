@@ -4,7 +4,7 @@
     {
         public Guid VodId { get; set; }
         public string SlaveId { get; set; } 
-        public Guid ExistantListId { get; set; }
+        public string ExistantList { get; set; }
         
         
     }

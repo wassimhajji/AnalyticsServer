@@ -4,6 +4,7 @@ using AnalyticsServer.MessagesDatabase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnalyticsServer.Migrations
 {
     [DbContext(typeof(MessagesDb))]
-    partial class MessagesDbModelSnapshot : ModelSnapshot
+    [Migration("20220209134650_Vod1")]
+    partial class Vod1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,25 @@ namespace AnalyticsServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("AnalyticsServer.MessagesDatabase.Existant", b =>
+                {
+                    b.Property<int>("ExistantId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ExistantListId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SlaveId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ExistantId", "ExistantListId");
+
+                    b.ToTable("ExistantList");
+                });
 
             modelBuilder.Entity("AnalyticsServer.MessagesDatabase.Hardware", b =>
                 {
@@ -149,36 +170,46 @@ namespace AnalyticsServer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AudioBitrate")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AudioCodec")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrentSource")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Fps")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Height")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Speed")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Time")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeAdded")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("VideoBitrate")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VideoCodec")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Width")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("state")
@@ -195,9 +226,8 @@ namespace AnalyticsServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ExistantList")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("ExistantListId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("SlaveId")
                         .IsRequired()
@@ -205,7 +235,7 @@ namespace AnalyticsServer.Migrations
 
                     b.HasKey("VodId");
 
-                    b.ToTable("Vod");
+                    b.ToTable("Vods");
                 });
 #pragma warning restore 612, 618
         }

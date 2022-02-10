@@ -1,4 +1,5 @@
 ﻿using AnalyticsServer.Cache;
+using AnalyticsServer.Cache.Models;
 using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
 using System.Threading.Channels;
@@ -28,6 +29,8 @@ namespace AnalyticsServer.HostedServices
                     var StreamMsg = await _channelReader.ReadAsync(stoppingToken);
                     Console.WriteLine($"the general stream cache{StreamMsg}");
 
+                    
+                    
                     int notWorking = 0;
                     int working = 0;
                     foreach (var item in StreamMsg.State)
@@ -40,7 +43,32 @@ namespace AnalyticsServer.HostedServices
                         NotWorking = notWorking,
                         Working = working,
                     };
-                    GeneralCache.UpdateGeneral(HWMsg,model);
+                    GeneralState obj = new GeneralState
+                    {
+                        Hardwear = HWMsg,
+                        Streams = model
+                    };
+
+                    
+                   
+
+                    
+                    
+                    Cache.Models.GeneralInfo generalInfo = new Cache.Models.GeneralInfo
+                    {
+                        NetInTotal =   HWMsg.State.Io.NetIn,
+                        NetOutTotal =  HWMsg.State.Io.NetOut,
+                        DiskCapacityTotal = HWMsg.State.Disks[0].Size,
+                        AvailableTotal = HWMsg.State.Disks[0].Available,
+                    };
+                    SlaveState objFinal = new SlaveState
+                    {
+                        GeneralInfo = generalInfo,
+                        GeneralState = obj,
+                        
+                    };
+                    //objFinal.GeneralState.Add(obj);
+                    GeneralCache.UpdateGeneral(objFinal);
 
 
 

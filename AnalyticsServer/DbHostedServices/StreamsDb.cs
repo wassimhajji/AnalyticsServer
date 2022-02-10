@@ -45,6 +45,8 @@ namespace AnalyticsServer.DbHostedServices
                             Fps = msg.State[0].Fps,
                             Speed = msg.State[0].Speed,
                         };
+                        
+
 
                          MessagesDatabase.Stream streamSecond = new MessagesDatabase.Stream
                         {

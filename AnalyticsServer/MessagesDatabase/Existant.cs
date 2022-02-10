@@ -5,5 +5,6 @@
         public Guid ExistantListId { get; set; }
         public string? SlaveId { get; set; }
         public int ExistantId { get; set; }
+        //public DateTime AddedAt { get; set; }    
     }
 }

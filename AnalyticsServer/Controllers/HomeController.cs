@@ -26,11 +26,11 @@ namespace AnalyticsServer.Controllers
         {
             var msg = await _channelReader.ReadAsync(stoppingToken);
             
-            Console.WriteLine(msg);
-            return Ok(msg);
-           // Console.WriteLine($"here is the state : {msg.State.Ram}");
-            //_context.SaveChanges();
-            //return Ok(Cache.GeneralCache.GetGeneral());
+           //Console.WriteLine(msg);
+            //return Ok(msg);
+           //Console.WriteLine($"here is the state : {msg.State.Ram}");
+           //_context.SaveChanges();
+            return Ok(Cache.GeneralCache.GetGeneral());
         }
     }
 }
