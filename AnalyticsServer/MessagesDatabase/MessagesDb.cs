@@ -12,6 +12,7 @@ namespace AnalyticsServer.MessagesDatabase
         public DbSet<HardwareDisks>? HardwareDisks { get; set; }
         public DbSet<Stream>? Streams { get; set; }
         public DbSet<Vod>? Vod { get; set; }
+        public DbSet<UsersConnectionModel>? UsersConnection { get; set; }   
             
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,8 @@ namespace AnalyticsServer.MessagesDatabase
 
             modelBuilder.Entity<Stream>()
                 .HasKey(o => new { o.Id, o.SlaveId, o.StreamId });
+            modelBuilder.Entity<UsersConnectionModel>()
+                .HasKey(o => new { o.Id });
         }
     }
 }

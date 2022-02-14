@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Concurrent;
 using System.Threading.Channels;
 
 
@@ -16,6 +17,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<Channel<HWModel>>(_ => Channel.CreateUnbounded<HWModel>());
 builder.Services.AddSingleton<Channel<StreamMessages>>(_ => Channel.CreateUnbounded<StreamMessages>());
 builder.Services.AddSingleton<Channel<VodMessage>>(_ => Channel.CreateUnbounded<VodMessage>());
+builder.Services.AddSingleton<Channel < ConcurrentDictionary<string, UsersConnection>>> (_ => Channel.CreateUnbounded<ConcurrentDictionary<string,UsersConnection>>());
 builder.Services.AddHostedService<SlaveHWConsumer>();
 builder.Services.AddHostedService<StreamsConsumer>();
 builder.Services.AddHostedService<UsersConnectionConsumer>();
@@ -23,7 +25,9 @@ builder.Services.AddHostedService<HWDb>();
 builder.Services.AddHostedService<StreamsDb>();
 builder.Services.AddHostedService<VodConsumer>();
 builder.Services.AddHostedService<VodDb>();
-builder.Services.AddHostedService<GeneralUpdater>();
+builder.Services.AddHostedService<HardwareGeneral>();
+builder.Services.AddHostedService<UsersConnectionDb>();
+
 
 //var connectionString = builder.Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=StatsDatabase;Trusted_Connection=True;MultipleActiveResultSets=true");
 //Console.WriteLine(connectionString);

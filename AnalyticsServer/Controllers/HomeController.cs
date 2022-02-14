@@ -2,6 +2,7 @@
 using AnalyticsServer.MessagesModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
 using System.Threading.Channels;
 
 namespace AnalyticsServer.Controllers
@@ -10,13 +11,13 @@ namespace AnalyticsServer.Controllers
     [ApiController]
     public class HomeController : Controller
     {
-        private readonly ChannelReader<VodMessage> _channelReader;
+        private readonly ChannelReader<ConcurrentDictionary<string, UsersConnection>> _channelReader;
         private ModelBuilder _modelBuilder; 
         private MessagesDb _context; 
 
         
 
-        public HomeController(Channel<VodMessage> channel, MessagesDb context)
+        public HomeController(Channel<ConcurrentDictionary<string, UsersConnection>> channel, MessagesDb context)
         {
             _channelReader = channel.Reader;
             
@@ -28,9 +29,11 @@ namespace AnalyticsServer.Controllers
             
            //Console.WriteLine(msg);
             //return Ok(msg);
-           //Console.WriteLine($"here is the state : {msg.State.Ram}");
-           //_context.SaveChanges();
-            return Ok(Cache.GeneralCache.GetGeneral());
+            //Console.WriteLine($"here is the state : {msg.State.Ram}");
+            //_context.SaveChanges();
+            // return Ok(Cache.GeneralCache.GetGeneral());
+            //return Ok(Cache.HardwareCache.GetAllHardwares());
+            return Ok(Cache.UsersConnectionCache.GetAllUsersAndConnections());
         }
     }
 }
