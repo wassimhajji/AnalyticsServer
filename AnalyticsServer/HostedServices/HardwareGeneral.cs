@@ -1,4 +1,5 @@
 ﻿using AnalyticsServer.Cache.Models;
+using AnalyticsServer.Cache.Models.HardwareModels;
 using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
 using System.Collections.Concurrent;
@@ -32,13 +33,24 @@ namespace AnalyticsServer.HostedServices
                     var UsersMsg = await _usersChannelReader.ReadAsync(stoppingToken);  
                     Console.WriteLine($"the message update users is = {UsersMsg}");
                     UsersConnection user = new UsersConnection();
+                    int TotalOnlineConnections = 0;
+                    int TotalOnlineUsers = 0;
                     foreach (var item in UsersMsg.Keys)
                     {
                         if (item == HWMsg.SlaveId)
                         {
                               user = UsersMsg[item];
+                            
+
                         }
                     }
+                    TotalOnlineConnections = TotalOnlineConnections + user.NbConnections;
+                    TotalOnlineUsers = TotalOnlineUsers + user.NbUsers;
+                    UsersConnections userGeneral = new UsersConnections
+                    {
+                        OnlineUsers = user.NbUsers,
+                        OnlineConnections = user.NbConnections,
+                    };
 
                     int notWorking = 0;
                     int working = 0;
@@ -131,7 +143,7 @@ namespace AnalyticsServer.HostedServices
                         listDisk.Add(disk);
                     }
 
-                    luck state = new luck
+                    SlaveState state = new SlaveState
                     {
                         Cpu = cpu,
                         Io = io,
@@ -144,18 +156,35 @@ namespace AnalyticsServer.HostedServices
                         SlaveId = HWMsg.SlaveId,
                         State = state,
                         Streams = streams,
-                        UsersConnection = user,
+                        UsersConnections = userGeneral,
                     };
                     
                     List<SlaveList> list = new List<SlaveList>();   
                     list.Add(slavelist);
+                    foreach (var item in list)
+                    {
+                        Console.WriteLine($"the needed list is : {item.UsersConnections.OnlineConnections} and {item.UsersConnections.OnlineUsers}");
+                    }
+                    for (int i = 0; i < list.Count; i++)
+                    {
+
+                    }
+                    
+                    var  usr = 3;
+                    var conn = 4;
+                    
+                    
+                    
                     Cache.Models.Index index = new Cache.Models.Index
                     {
                         NetInTotal = netInTotal + HWMsg.State.Io.NetIn,
                         NetOutTotal = netOuTotal + HWMsg.State.Io.NetOut,
                         DiskCapacityTotal = DiskSizeTotal,
                         AvailableTotal = DiskAvailableTotal,
+                        TotalOnlineUsers = 2,
+                        TotalOnlineConnections = 6,
                         Slaves = list,
+                        
 
                     };
                     Cache.HardwareCache.UpdateServerHardwear(index);   

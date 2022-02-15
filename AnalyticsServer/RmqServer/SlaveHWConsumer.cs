@@ -49,7 +49,7 @@ namespace AnalyticsServer.RmqServer
                             var message = JsonConvert.DeserializeObject<HWModel>(body);
                             if (message == null) return;
                             var msg = message.State;
-                            Console.WriteLine($"the hardware message is : {message}");
+                           // Console.WriteLine($"the hardware message is : {message}");
                             ServerCache.UpdateServerHardwear(message);
                             _channelWriter.WriteAsync(message);
                         }

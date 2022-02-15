@@ -17,7 +17,7 @@ namespace AnalyticsServer.MessagesDatabase
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HardwareDisks>()
-                .HasKey(o => new { o.SlaveId, o.FileSystem });
+                .HasKey(o => new { o.Id, o.TimeAdded });
 
             modelBuilder.Entity<Stream>()
                 .HasKey(o => new { o.Id, o.SlaveId, o.StreamId });

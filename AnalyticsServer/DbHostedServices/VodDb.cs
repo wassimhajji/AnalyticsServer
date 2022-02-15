@@ -40,7 +40,7 @@ namespace AnalyticsServer.DbHostedServices
                             ExistantList = b.ExistantList,
                         }).FirstOrDefault();
 
-                        if (model.ExistantList == str) return;
+                        if (model.ExistantList == str && msg.SlaveId == model.SlaveId) return;
 
                             Vod vod = new Vod
                             {

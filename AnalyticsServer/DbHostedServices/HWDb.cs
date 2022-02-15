@@ -10,7 +10,7 @@ namespace AnalyticsServer.DbHostedServices
         private readonly ChannelReader<HWModel> _channelReader;
         
         private MessagesDb _db;
-        private string free;
+        
 
         public HWDb(Channel<HWModel> channel, IServiceProvider serviceProvider)
         {
@@ -27,12 +27,6 @@ namespace AnalyticsServer.DbHostedServices
                 {
 
                     var msg = await _channelReader.ReadAsync(stoppingToken);
-
-                    Console.WriteLine($"here is the state : {msg.State}");
-                    foreach (var item in msg.State.Disks)
-                    {
-                        free = item.Available;
-                    }
 
                     Hardware hardware = new Hardware
                     {
@@ -60,6 +54,7 @@ namespace AnalyticsServer.DbHostedServices
                         IODiskRead = msg.State.Io.DiskRead,
                         IODiskWrite = msg.State.Io.DiskWrite,
                     };
+
                     await _db.Hardware.AddAsync(hardware);
                     try
                     {
@@ -71,39 +66,37 @@ namespace AnalyticsServer.DbHostedServices
                         Console.WriteLine(ex);
                     }
 
-
-                    HardwareDisks Disk = new HardwareDisks();
-                    
-                    
                     foreach (var item in msg.State.Disks)
                     {
-                        Disk.SlaveId = msg.SlaveId;
-                        Disk.TimeAdded = DateTime.Now;
-                        Disk.FileSystem = item.FileSystem;
-                        Disk.Size = item.Size;
-                        Disk.Used = item.Used;  
-                        Disk.Available = item.Available;
-                        Disk.Use = item.Use;
-                        Disk.MontedOn = item.MontedOn;
-                    };
-
-                    if (free != Disk.Available)
-                    {
-                        await _db.HardwareDisks.AddAsync(Disk);
-                        try
+                        var model = _db.HardwareDisks.OrderByDescending(s => s.Available).FirstOrDefault();
+                        Console.WriteLine($"the last row is {model}");
+                        
+                        HardwareDisks disk = new HardwareDisks
                         {
-                            await _db.SaveChangesAsync();
-                        }
-                        catch (Exception ex)
-                        {
+                            Id = Guid.NewGuid(),
+                            SlaveId = msg.SlaveId,
+                            FileSystem = item.FileSystem,
+                            Size = item.Size,
+                            Used = item.Used,
+                            Available = item.Available,
+                            Use = item.Use,
+                            MontedOn = item.MontedOn,
+                            TimeAdded = DateTime.Now,
+                        };
+                        if (model.SlaveId == disk.SlaveId && model.Used == disk.Used && model.Available == disk.Available && model.MontedOn == disk.MontedOn && model.FileSystem == disk.FileSystem
+                             && model.Use == disk.Use) return; 
+                            await _db.HardwareDisks.AddAsync(disk);
+                            try
+                            {
+                                await _db.SaveChangesAsync();
+                            }
+                            catch (Exception ex)
+                            {
 
-                            Console.WriteLine(ex);
-                        }
-                    }
-                  
-                    
+                                Console.WriteLine(ex);
+                            }
+                    }  
                 }
-                
             });
         }
 

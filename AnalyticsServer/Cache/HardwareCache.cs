@@ -12,7 +12,7 @@ namespace AnalyticsServer.Cache
             
             if (model.Slaves == null) return;
             var newState = new Cache.Models.Index { NetInTotal = model.NetInTotal , NetOutTotal = model.NetOutTotal ,DiskCapacityTotal=model.DiskCapacityTotal, AvailableTotal=model.AvailableTotal
-            ,Slaves= model.Slaves};
+            , TotalOnlineUsers = model.TotalOnlineUsers, TotalOnlineConnections = model.TotalOnlineConnections,Slaves= model.Slaves};
 
             if (General.TryGetValue(model.NetOutTotal.ToString(), out var state))
             {

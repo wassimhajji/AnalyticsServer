@@ -5,6 +5,7 @@ namespace AnalyticsServer.MessagesDatabase
 {
     public class HardwareDisks
     {
+        public Guid Id { get; set; }
         public string SlaveId { get; set; }
         public DateTime TimeAdded { get; set; } 
         public string FileSystem { get; set; }

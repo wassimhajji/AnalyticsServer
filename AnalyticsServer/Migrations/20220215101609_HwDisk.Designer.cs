@@ -4,6 +4,7 @@ using AnalyticsServer.MessagesDatabase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnalyticsServer.Migrations
 {
     [DbContext(typeof(MessagesDb))]
-    partial class MessagesDbModelSnapshot : ModelSnapshot
+    [Migration("20220215101609_HwDisk")]
+    partial class HwDisk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,17 +105,13 @@ namespace AnalyticsServer.Migrations
 
             modelBuilder.Entity("AnalyticsServer.MessagesDatabase.HardwareDisks", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("TimeAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Available")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SlaveId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FileSystem")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Available")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -125,9 +123,8 @@ namespace AnalyticsServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SlaveId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("TimeAdded")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Use")
                         .IsRequired()
@@ -137,7 +134,7 @@ namespace AnalyticsServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id", "TimeAdded");
+                    b.HasKey("SlaveId", "FileSystem");
 
                     b.ToTable("HardwareDisks");
                 });
