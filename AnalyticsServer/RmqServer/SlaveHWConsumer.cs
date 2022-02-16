@@ -43,13 +43,14 @@ namespace AnalyticsServer.RmqServer
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received +=  (sender, e) =>
                     {
+                        Console.WriteLine(consumer);
                         try
                         {
                             var body = Encoding.UTF8.GetString(e.Body.ToArray());
                             var message = JsonConvert.DeserializeObject<HWModel>(body);
                             if (message == null) return;
                             var msg = message.State;
-                           // Console.WriteLine($"the hardware message is : {message}");
+                            Console.WriteLine($"the hardware message is : {message}");
                             ServerCache.UpdateServerHardwear(message);
                             _channelWriter.WriteAsync(message);
                         }

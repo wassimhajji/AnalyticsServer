@@ -170,8 +170,14 @@ namespace AnalyticsServer.HostedServices
 
                     }
                     
-                    var  usr = 3;
-                    var conn = 4;
+                    var  usr = 0;
+                    var conn = 0;
+
+                    foreach (var item in list)
+                    {
+                        usr = usr + item.UsersConnections.OnlineUsers;
+                        conn = conn + item.UsersConnections.OnlineConnections;
+                    }
                     
                     
                     
@@ -181,8 +187,8 @@ namespace AnalyticsServer.HostedServices
                         NetOutTotal = netOuTotal + HWMsg.State.Io.NetOut,
                         DiskCapacityTotal = DiskSizeTotal,
                         AvailableTotal = DiskAvailableTotal,
-                        TotalOnlineUsers = 2,
-                        TotalOnlineConnections = 6,
+                        TotalOnlineUsers = usr,
+                        TotalOnlineConnections = conn,
                         Slaves = list,
                         
 
