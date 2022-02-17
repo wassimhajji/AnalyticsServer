@@ -32,13 +32,20 @@ namespace AnalyticsServer.DbHostedServices
                     {
                         string str = JsonConvert.SerializeObject(msg.State.Existing);
 
-                        var model = _db.Vod.OrderByDescending(s => s.ExistantList).
+                        var model = _db.Vod.OrderByDescending(s => s.TimeAdded).FirstOrDefault();
+                        /*
                         Select(b => new
                         {
                             Id = b.VodId,
                             SlaveId = b.SlaveId,
                             ExistantList = b.ExistantList,
+                            
                         }).FirstOrDefault();
+                        */
+                        Console.WriteLine(model);
+
+                        
+
 
                         if (model.ExistantList == str && msg.SlaveId == model.SlaveId) return;
 
@@ -47,6 +54,7 @@ namespace AnalyticsServer.DbHostedServices
                                 VodId = Guid.NewGuid(),
                                 SlaveId = msg.SlaveId,
                                 ExistantList = str,
+                                TimeAdded = DateTime.Now,
                             };
                             await _db.Vod.AddAsync(vod);
                             try

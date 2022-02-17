@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Collections.Concurrent;
 using System.Text;
+using System.Threading.Channels;
 
 namespace AnalyticsServer.RmqServer
 {
@@ -10,6 +12,13 @@ namespace AnalyticsServer.RmqServer
         private readonly string exchangeName = "SessionExchange";
         private readonly string queueName = "StreamGroupingConsumer";
         private readonly string topicKey = "Stream.Session.Stat";
+
+        private readonly ChannelWriter<ConcurrentDictionary<string, int>> _channelWriter;
+
+        public StreamGroupingConsumer(Channel<ConcurrentDictionary<string, int>> _channel)
+        {
+            _channelWriter = _channel.Writer;
+        }
 
         private void ListenForStreamGroupingEvents(CancellationToken stoppingToken)
         {
@@ -36,7 +45,8 @@ namespace AnalyticsServer.RmqServer
                             if (message == null) return;
                             
                             Console.WriteLine($"the stream grouping message is : {message}");
-                            
+                           // Cache.StreamGroupingCache.UpdateStreamGrouping(message);
+                            _channelWriter.WriteAsync(message);
                         }
                         catch (Exception ex)
                         {

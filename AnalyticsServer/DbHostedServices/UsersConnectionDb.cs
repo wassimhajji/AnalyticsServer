@@ -44,7 +44,7 @@ namespace AnalyticsServer.DbHostedServices
                         SlaveId = str, 
                         UsersNumber = model.NbUsers,
                         ConnectionsNumber = model.NbConnections,
-
+                        TimeAdded = DateTime.Now,
                     };
                     await _db.UsersConnection.AddAsync(user);
                     try

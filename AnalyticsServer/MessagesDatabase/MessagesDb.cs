@@ -12,8 +12,9 @@ namespace AnalyticsServer.MessagesDatabase
         public DbSet<HardwareDisks>? HardwareDisks { get; set; }
         public DbSet<Stream>? Streams { get; set; }
         public DbSet<Vod>? Vod { get; set; }
-        public DbSet<UsersConnectionModel>? UsersConnection { get; set; }   
-            
+        public DbSet<UsersConnectionModel>? UsersConnection { get; set; }
+        public DbSet<StreamGrouping>? StreamsGrouping { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HardwareDisks>()

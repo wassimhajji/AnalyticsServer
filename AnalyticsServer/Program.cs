@@ -18,17 +18,19 @@ builder.Services.AddSingleton<Channel<HWModel>>(_ => Channel.CreateUnbounded<HWM
 builder.Services.AddSingleton<Channel<StreamMessages>>(_ => Channel.CreateUnbounded<StreamMessages>());
 builder.Services.AddSingleton<Channel<VodMessage>>(_ => Channel.CreateUnbounded<VodMessage>());
 builder.Services.AddSingleton<Channel<ConcurrentDictionary<string,UsersConnection>>> (_ => Channel.CreateUnbounded<ConcurrentDictionary<string,UsersConnection>>());
-//builder.Services.AddHostedService<SlaveHWConsumer>();
+builder.Services.AddSingleton<Channel<ConcurrentDictionary<string, int>>>(_ => Channel.CreateUnbounded<ConcurrentDictionary<string, int>>());
+builder.Services.AddHostedService<SlaveHWConsumer>();
 //builder.Services.AddHostedService<StreamsConsumer>();
 //builder.Services.AddHostedService<UsersConnectionConsumer>();
-//builder.Services.AddHostedService<HWDb>();
+builder.Services.AddHostedService<HWDb>();
 //builder.Services.AddHostedService<StreamsDb>();
 //builder.Services.AddHostedService<VodConsumer>();
 //builder.Services.AddHostedService<VodDb>();
 //builder.Services.AddHostedService<HardwareGeneral>();
 //builder.Services.AddHostedService<UsersConnectionDb>();
-builder.Services.AddHostedService<StreamGroupingConsumer>();
-
+//builder.Services.AddHostedService<StreamGroupingConsumer>();
+//builder.Services.AddHostedService<StreamGroupingDb>();
+//builder.Services.AddHostedService<DataClear>();
 
 //var connectionString = builder.Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=StatsDatabase;Trusted_Connection=True;MultipleActiveResultSets=true");
 //Console.WriteLine(connectionString);

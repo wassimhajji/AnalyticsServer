@@ -5,6 +5,7 @@
         public Guid VodId { get; set; }
         public string SlaveId { get; set; } 
         public string ExistantList { get; set; }
+        public DateTime TimeAdded { get; set; }
         
         
     }

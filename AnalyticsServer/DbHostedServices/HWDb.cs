@@ -54,6 +54,7 @@ namespace AnalyticsServer.DbHostedServices
                         IODiskRead = msg.State.Io.DiskRead,
                         IODiskWrite = msg.State.Io.DiskWrite,
                     };
+                    Console.WriteLine($"hardware from db is : {hardware}");
 
                     await _db.Hardware.AddAsync(hardware);
                     try
@@ -68,7 +69,7 @@ namespace AnalyticsServer.DbHostedServices
 
                     foreach (var item in msg.State.Disks)
                     {
-                        var model = _db.HardwareDisks.OrderByDescending(s => s.Available).FirstOrDefault();
+                        var model = _db.HardwareDisks.OrderByDescending(s => s.TimeAdded).FirstOrDefault();
                         Console.WriteLine($"the last row is {model}");
                         
                         HardwareDisks disk = new HardwareDisks
@@ -83,6 +84,7 @@ namespace AnalyticsServer.DbHostedServices
                             MontedOn = item.MontedOn,
                             TimeAdded = DateTime.Now,
                         };
+                        
                         if (model.SlaveId == disk.SlaveId && model.Used == disk.Used && model.Available == disk.Available && model.MontedOn == disk.MontedOn && model.FileSystem == disk.FileSystem
                              && model.Use == disk.Use) return; 
                             await _db.HardwareDisks.AddAsync(disk);

@@ -4,14 +4,12 @@ namespace AnalyticsServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IndexController : Controller
+    public class StreamGroupingController : Controller
     {
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(Cache.HardwareCache.GetAllHardwares());
-
+            return Ok(Cache.StreamGroupingCache.GetAllStreamGroupings());
         }
-        
     }
 }
