@@ -1,5 +1,6 @@
 ﻿using AnalyticsServer.MessagesDatabase;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AnalyticsServer.Controllers
 {
@@ -12,7 +13,9 @@ namespace AnalyticsServer.Controllers
         {
             _db = db;
         }
-        
+        [HttpGet]
+        [Authorize]
+
         public IActionResult Index(string Id, int minutes)
         {
             var RollBack = DateTime.Now.AddMinutes(-minutes);

@@ -1,4 +1,5 @@
 ﻿using AnalyticsServer.Cache;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Concurrent;
 using System.Threading.Channels;
@@ -13,7 +14,8 @@ namespace AnalyticsServer.Controllers
 
 
         [HttpGet]
-       public IActionResult Get(int Id)
+        [Authorize]
+        public IActionResult Get(int Id)
         {
            return Ok(StreamCache.GetStreams(Id));
 

@@ -1,4 +1,5 @@
 ﻿using AnalyticsServer.Cache;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnalyticsServer.Controllers
@@ -8,6 +9,7 @@ namespace AnalyticsServer.Controllers
     public class StreamsController : Controller
     {
         [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
             return Ok(StreamCache.GetAllStreams());

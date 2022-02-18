@@ -1,5 +1,6 @@
 ﻿using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
@@ -23,6 +24,8 @@ namespace AnalyticsServer.Controllers
             
             _context = context; 
         }
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
             var msg = await _channelReader.ReadAsync(stoppingToken);
@@ -33,8 +36,8 @@ namespace AnalyticsServer.Controllers
             //_context.SaveChanges();
             // return Ok(Cache.GeneralCache.GetGeneral());
             //return Ok(Cache.HardwareCache.GetAllHardwares());
-            //return Ok(Cache.UsersConnectionCache.GetAllUsersAndConnections());
-            return Ok(Cache.StreamGroupingCache.GetAllStreamGroupings());
+            return Ok(Cache.UsersConnectionCache.GetAllUsersAndConnections());
+           // return Ok(Cache.StreamGroupingCache.GetAllStreamGroupings());
         }
     }
 }
