@@ -65,38 +65,6 @@ namespace AnalyticsServer.DbHostedServices
                     {
 
                         Console.WriteLine(ex);
-                    }
-
-                    foreach (var item in msg.State.Disks)
-                    {
-                        var model = _db.HardwareDisks.OrderByDescending(s => s.TimeAdded).FirstOrDefault();
-                        Console.WriteLine($"the last row is {model}");
-                        
-                        HardwareDisks disk = new HardwareDisks
-                        {
-                            Id = Guid.NewGuid(),
-                            SlaveId = msg.SlaveId,
-                            FileSystem = item.FileSystem,
-                            Size = item.Size,
-                            Used = item.Used,
-                            Available = item.Available,
-                            Use = item.Use,
-                            MontedOn = item.MontedOn,
-                            TimeAdded = DateTime.Now,
-                        };
-                        
-                        if (model.SlaveId == disk.SlaveId && model.Used == disk.Used && model.Available == disk.Available && model.MontedOn == disk.MontedOn && model.FileSystem == disk.FileSystem
-                             && model.Use == disk.Use) return; 
-                            await _db.HardwareDisks.AddAsync(disk);
-                            try
-                            {
-                                await _db.SaveChangesAsync();
-                            }
-                            catch (Exception ex)
-                            {
-
-                                Console.WriteLine(ex);
-                            }
                     }  
                 }
             });

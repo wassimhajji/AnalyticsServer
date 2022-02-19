@@ -41,11 +41,11 @@ namespace AnalyticsServer.RmqServer
                         try
                         {
                             var body = Encoding.UTF8.GetString(e.Body.ToArray());
-                            var message = JsonConvert.DeserializeObject<dynamic>(body);
+                            var message = JsonConvert.DeserializeObject<ConcurrentDictionary<string, int>>(body);
                             if (message == null) return;
                             
                             Console.WriteLine($"the stream grouping message is : {message}");
-                           // Cache.StreamGroupingCache.UpdateStreamGrouping(message);
+                            Cache.StreamGroupingCache.UpdateStreamGrouping(message);
                             _channelWriter.WriteAsync(message);
                         }
                         catch (Exception ex)

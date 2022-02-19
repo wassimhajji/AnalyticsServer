@@ -47,8 +47,9 @@ namespace AnalyticsServer.DbHostedServices
                         
 
 
-                        if (model.ExistantList == str && msg.SlaveId == model.SlaveId) return;
-
+                       // if (model.ExistantList == str && msg.SlaveId == model.SlaveId) return;
+                        if (model == null || model.ExistantList != str || msg.SlaveId != model.SlaveId)
+                        {
                             Vod vod = new Vod
                             {
                                 VodId = Guid.NewGuid(),
@@ -65,6 +66,8 @@ namespace AnalyticsServer.DbHostedServices
                             {
                                 Console.WriteLine(ex);
                             }
+                        }
+                        else if (model.ExistantList == str && msg.SlaveId == model.SlaveId) return;
                         Console.WriteLine($"the existant list is : {str}");
                     });
                 }

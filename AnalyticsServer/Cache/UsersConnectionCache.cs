@@ -14,7 +14,7 @@ namespace AnalyticsServer.Cache
             if (model == null) return;
             if (string.IsNullOrWhiteSpace(str)) return;
             if (user == null) return;
-            var newState = new UsersConnection { NbUsers = user.NbUsers , NbConnections = user.NbConnections };
+            var newState = new UsersConnection { NbUsers = user.NbUsers , NbConnections = user.NbConnections, UnusedSessions = user.UnusedSessions };
 
             if (UsersConnection.TryGetValue(str, out var state))
             {

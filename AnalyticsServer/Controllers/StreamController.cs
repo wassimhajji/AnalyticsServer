@@ -14,7 +14,7 @@ namespace AnalyticsServer.Controllers
             _db = db;
         }
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult Index(int Id)
         {
             

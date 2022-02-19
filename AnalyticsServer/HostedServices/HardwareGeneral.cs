@@ -12,7 +12,7 @@ namespace AnalyticsServer.HostedServices
         private readonly ChannelReader<StreamMessages> _channelReader;
         private readonly ChannelReader<HWModel> channelReader;
         private readonly ChannelReader<ConcurrentDictionary<string, UsersConnection>> _usersChannelReader;
-
+        private readonly ConcurrentDictionary<string , SlaveList>? Slaves = new() ;
         public HardwareGeneral(Channel<StreamMessages> channel, Channel<HWModel> _channel, Channel<ConcurrentDictionary<string, UsersConnection>> usersChannelReader)
         {
             _channelReader = channel.Reader;
@@ -22,7 +22,8 @@ namespace AnalyticsServer.HostedServices
 
         private void UpdateGeneralHardware(CancellationToken stoppingToken)
         {
-            _ = Task.Run(async () =>
+            
+        _ = Task.Run(async () =>
             {
                 while (await _channelReader.WaitToReadAsync(stoppingToken))
                 {
@@ -44,6 +45,8 @@ namespace AnalyticsServer.HostedServices
 
                         }
                     }
+
+
                     TotalOnlineConnections = TotalOnlineConnections + user.NbConnections;
                     TotalOnlineUsers = TotalOnlineUsers + user.NbUsers;
                     UsersConnections userGeneral = new UsersConnections
@@ -54,7 +57,7 @@ namespace AnalyticsServer.HostedServices
 
                     int notWorking = 0;
                     int working = 0;
-                    foreach (var item in StreamMsg.State)
+                   /* foreach (var item in StreamMsg.State)
                     {
                         if (item.Time == null) notWorking++;
                         if (item.Time != null) working++;
@@ -63,17 +66,16 @@ namespace AnalyticsServer.HostedServices
                     {
                         Working = working,
                         NotWorking = notWorking,
-                    }; 
-                    int netInTotal = 0;
-                    int netOuTotal = 0;
-                    int DiskSize = 0;
-                    int DiskAvailable = 0;
-                    int DiskSizeTotal = 0;
-                    int DiskAvailableTotal = 0;
+                    };*/
 
-                    string strSize = string.Empty;
-                    string strAvailable = string.Empty;
-                    for (int i = 0; i < HWMsg.State.Disks.Count; i++)
+                    ConcurrentDictionary<string, MessagesModels.StreamMessages> Streams = new();
+                    Streams = Cache.StreamCache.GetAllStreams();
+                    foreach (var item in Streams.Keys)
+                    {
+
+                    }
+                    
+                    /*for (int i = 0; i < HWMsg.State.Disks.Count; i++)
                     {
                         for (int j = 0; j < HWMsg.State.Disks[i].Size.ToString().Length; j++)
                         {
@@ -93,7 +95,7 @@ namespace AnalyticsServer.HostedServices
                         }
                         DiskAvailable = int.Parse(strAvailable);
                         DiskAvailableTotal = DiskAvailable + DiskAvailableTotal;
-                    }
+                    }*/
 
                     Cache.Models.Cpu cpu = new Cache.Models.Cpu
                     {
@@ -151,32 +153,89 @@ namespace AnalyticsServer.HostedServices
                         Disk = listDisk,
                         
                     };
+                    UsersConnections UserUpdated = new UsersConnections();
+                    foreach (var item in UsersMsg.Keys)
+                    {
+                        UserUpdated.OnlineUsers = UsersMsg[item].NbUsers;
+                        UserUpdated.OnlineConnections = UsersMsg[item].NbConnections;   
+                    }
                     SlaveList slavelist = new SlaveList
                     {
                         SlaveId = HWMsg.SlaveId,
                         State = state,
-                        Streams = streams,
-                        UsersConnections = userGeneral,
+                        Streams =null,
+                        UsersConnections = UserUpdated,
                     };
-                    
-                    List<SlaveList> list = new List<SlaveList>();   
-                    list.Add(slavelist);
-                    foreach (var item in list)
+                    foreach (var item in Streams.Keys)
                     {
-                        Console.WriteLine($"the needed list is : {item.UsersConnections.OnlineConnections} and {item.UsersConnections.OnlineUsers}");
+                        if (item == slavelist.SlaveId)
+                        {
+                            foreach (var itm in Streams[item].State)
+                            {
+                                if (itm.Time != null) working ++;
+                                else notWorking ++;
+                                
+                            }
+                        }
                     }
-                    for (int i = 0; i < list.Count; i++)
+                    StreamsWorking streams = new StreamsWorking
                     {
+                        Working = working,
+                        NotWorking = notWorking,
+                    };
+
+
+                    var newSlaves = new SlaveList {    SlaveId = HWMsg.SlaveId, State = state, Streams = streams, UsersConnections = userGeneral };
+
+                    if (Slaves.TryGetValue( HWMsg.SlaveId, out var slaveList))
+                    {
+                        Slaves.TryUpdate(HWMsg.SlaveId, newSlaves, slaveList);
+                        return;
 
                     }
+
+                    Slaves.TryAdd(HWMsg.SlaveId, newSlaves);
+
+                    int netInTotal = 0;
+                    int netOuTotal = 0;
+                    int DiskSize = 0;
+                    //int DiskAvailable = 0;
+                    int DiskSizeTotal = 0;
+                    int DiskAvailableTotal = 0;
+
+                    string strSize = string.Empty;
+                    string strAvailable = string.Empty;
+                    foreach (var item in Slaves.Keys)
+                    {
+                        for (int i = 0; i < Slaves[item].State.Disk.Count; i++)
+                        {
+                            for (int j = 0; j < Slaves[item].State.Disk[i].Size.ToString().Length; j++)
+                            {
+                                if (char.IsDigit(HWMsg.State.Disks[i].Size.ToString()[j]) )
+                                {
+                                    strSize += HWMsg.State.Disks[i].Size.ToString()[j];
+                                    
+                                }
+                                
+                            }
+                            DiskSize = int.Parse(strSize);
+                            DiskSize = int.Parse(strSize);
+                            
+                            DiskSizeTotal = DiskSize + DiskSizeTotal;
+                        }
+                    }
+
+
+
+
+
                     
                     var  usr = 0;
                     var conn = 0;
-
-                    foreach (var item in list)
+                    foreach (var item in UsersMsg.Keys)
                     {
-                        usr = usr + item.UsersConnections.OnlineUsers;
-                        conn = conn + item.UsersConnections.OnlineConnections;
+                        usr = usr + UsersMsg[item].NbUsers;
+                        conn = conn + UsersMsg[item].NbConnections;
                     }
                     
                     
@@ -189,11 +248,11 @@ namespace AnalyticsServer.HostedServices
                         AvailableTotal = DiskAvailableTotal,
                         TotalOnlineUsers = usr,
                         TotalOnlineConnections = conn,
-                        Slaves = list,
+                        Slaves = Slaves,
                         
 
                     };
-                    Cache.HardwareCache.UpdateServerHardwear(index);   
+                    Cache.HardwareCache.UpdateServerHardwear(Slaves);   
                 }
             });
         }

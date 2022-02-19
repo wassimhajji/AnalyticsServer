@@ -9,6 +9,7 @@ namespace AnalyticsServer.MessagesDatabase
         public string? SlaveId { get; set; }
         public int UsersNumber { get; set; }
         public int ConnectionsNumber { get; set; }
+        public int UnusedSessions { get; set; }
         public DateTime TimeAdded { get; set; }
     }
 }

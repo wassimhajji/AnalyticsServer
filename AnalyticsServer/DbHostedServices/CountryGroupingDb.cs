@@ -39,7 +39,16 @@ namespace AnalyticsServer.DbHostedServices
 
 
                    };
-                   Cache.GroupingByCountryCache.UpdateGroupingByCountry1(model);
+                   //Cache.GroupingByCountryCache.UpdateGroupingByCountry1(model);
+                   await _db.CountryGrouping.AddAsync(model);
+                   try
+                   {
+                       _db.SaveChangesAsync();
+                   }
+                   catch (Exception ex)
+                   {
+                       Console.WriteLine(ex);
+                   }
 
 
                }

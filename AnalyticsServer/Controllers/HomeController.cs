@@ -25,7 +25,7 @@ namespace AnalyticsServer.Controllers
             _context = context; 
         }
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
             var msg = await _channelReader.ReadAsync(stoppingToken);
