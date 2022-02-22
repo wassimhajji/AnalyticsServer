@@ -1,4 +1,5 @@
 ﻿using AnalyticsServer.Cache.Models;
+using AnalyticsServer.Cache.Models.HardwareModels;
 using AnalyticsServer.MessagesDatabase;
 using AnalyticsServer.MessagesModels;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,8 @@ namespace AnalyticsServer.Cache
         
 
         private static ConcurrentDictionary<string, ServerState> Servers = new();
+        private static ConcurrentDictionary<string, DiskCpuTotal> disk = new();
+        private static DiskCpuTotal diskCpu = new DiskCpuTotal();
         public static void UpdateServerHardwear(HWModel model)
         {
             if (model == null) return;
@@ -28,6 +31,26 @@ namespace AnalyticsServer.Cache
             }
 
             Servers.TryAdd(model.SlaveId, newState);
+
+            int netInTotal = 0;
+            int netOutTotal = 0;
+
+            foreach (var item in Servers.Values)
+            {
+                netInTotal = netInTotal + item.Hardwear.State.Io.NetIn;
+                netOutTotal = netOutTotal + item.Hardwear.State.Io.NetOut;
+            } 
+
+            var newDisk = new DiskCpuTotal { NetOutTotal = netOutTotal, NetInTotal = netInTotal , AvailableTotal = 0, DiskCapacityTotal = 0 };
+            if (disk.TryGetValue(model.SlaveId, out var disks))
+            {
+                disk.TryUpdate(model.SlaveId, newDisk, disks);
+                return;
+
+            }
+
+            disk.TryAdd(model.SlaveId, newDisk);
+
         }
 
         public static ConcurrentDictionary<string, ServerState> GetAllServers()
@@ -35,43 +58,12 @@ namespace AnalyticsServer.Cache
             return Servers;
         }
 
-        public static StreamsWorking StreamsWorkingCalculator(StreamsWorking model)
+       public static ConcurrentDictionary<string, DiskCpuTotal> GetDiskCpuTotal()
         {
-            int notWorking = 0;
-            int working = 0;
-            var stream = StreamCache.GetAllStreams();
-            foreach (var item in stream.Values)
-            {
-                foreach (var i in item.State)
-                {
-                    if (i.Time == null) notWorking ++;    
-                    if (i.Time != null) working ++;
-                    
-                }
-            }
-            model.NotWorking = notWorking;
-            model.Working = working;
-            return model;
+            return disk;
+
         }
-        public static void General(HWModel model, StreamsWorking StreamModel)
-        {
-            if (model == null) return;
-            if (string.IsNullOrWhiteSpace(model.SlaveId)) return;
-            if (model.State == null) return;
-            
-            var newState = new ServerState { SlaveId = model.SlaveId, Hardwear = model };
-
-            //var streams = StreamsWorkingCalculator(StreamModel);
-
-            if (Servers.TryGetValue(model.SlaveId, out var state))
-            {
-                Servers.TryUpdate(model.SlaveId, newState, state);
-                return;
-
-            }
-
-            Servers.TryAdd(model.SlaveId, newState);
-        }
+        
 
     }
 }

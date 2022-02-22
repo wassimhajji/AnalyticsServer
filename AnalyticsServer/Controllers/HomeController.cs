@@ -36,8 +36,9 @@ namespace AnalyticsServer.Controllers
             //_context.SaveChanges();
             // return Ok(Cache.GeneralCache.GetGeneral());
             //return Ok(Cache.HardwareCache.GetAllHardwares());
-            return Ok(Cache.UsersConnectionCache.GetAllUsersAndConnections());
+            //return Ok(Cache.UsersConnectionCache.GetAllUsersAndConnections());
            // return Ok(Cache.StreamGroupingCache.GetAllStreamGroupings());
+           return Ok(Cache.ServerCache.GetDiskCpuTotal());
         }
     }
 }

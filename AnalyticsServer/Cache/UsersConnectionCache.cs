@@ -1,4 +1,5 @@
-﻿using AnalyticsServer.MessagesModels;
+﻿using AnalyticsServer.Cache.Models.HardwareModels;
+using AnalyticsServer.MessagesModels;
 using System.Collections.Concurrent;
 
 namespace AnalyticsServer.Cache
@@ -6,6 +7,8 @@ namespace AnalyticsServer.Cache
     public class UsersConnectionCache
     {
         private static ConcurrentDictionary<string, UsersConnection> UsersConnection = new();
+        public static UsersConnections user = new UsersConnections();
+
         public static void UpdateusersConnection(ConcurrentDictionary<string, UsersConnection> model)
         {
             string str = model.Keys.First(); 
@@ -29,6 +32,28 @@ namespace AnalyticsServer.Cache
         public static ConcurrentDictionary<string, UsersConnection> GetAllUsersAndConnections()
         {
             return UsersConnection;
+        }
+
+        public static UsersConnections UpdateTotalUsers(ConcurrentDictionary<string, UsersConnection> model)
+        {
+            int totalOnliuneUsers = 0;
+            int totalOnlineConnections = 0;
+            foreach (var item in model.Values)
+            {
+                totalOnliuneUsers = totalOnliuneUsers + item.NbUsers;
+                totalOnlineConnections = totalOnlineConnections + item.NbConnections;
+            }
+
+
+
+            user.OnlineUsers = totalOnliuneUsers;
+                user.OnlineConnections = totalOnlineConnections;
+           
+            return user;
+        }
+        public static UsersConnections GetTotalUsers()
+        {
+            return user ;
         }
     }
 }

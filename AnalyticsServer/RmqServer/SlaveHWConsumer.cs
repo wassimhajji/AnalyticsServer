@@ -52,6 +52,7 @@ namespace AnalyticsServer.RmqServer
                             var msg = message.State;
                             Console.WriteLine($"the hardware message is : {message}");
                             ServerCache.UpdateServerHardwear(message);
+                            Cache.IndexUpdate.UpdateIndex(message);
                             _channelWriter.WriteAsync(message);
                         }
                         catch (Exception ex)

@@ -46,6 +46,7 @@ namespace AnalyticsServer.RmqServer
                             if (message == null) return;
                             _channelWriter.WriteAsync(message);
                             Cache.UsersConnectionCache.UpdateusersConnection(message);
+                            Cache.UsersConnectionCache.UpdateTotalUsers(message);
                         }
                         catch (Exception ex)
                         {

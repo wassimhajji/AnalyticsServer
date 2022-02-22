@@ -9,8 +9,8 @@ namespace AnalyticsServer.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            //return Ok(Cache.GroupingByCountryCache.GetAllCountryGroupings());
-            return Ok(Cache.GroupingByCountryCache.GetAllCountryGroupings1());
+            return Ok(Cache.GroupingByCountryCache.GetAllCountryGroupings());
+            //return Ok(Cache.GroupingByCountryCache.GetAllCountryGroupings1());
             
         }
     }

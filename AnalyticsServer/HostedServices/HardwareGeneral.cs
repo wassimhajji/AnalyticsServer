@@ -159,14 +159,14 @@ namespace AnalyticsServer.HostedServices
                         UserUpdated.OnlineUsers = UsersMsg[item].NbUsers;
                         UserUpdated.OnlineConnections = UsersMsg[item].NbConnections;   
                     }
-                    SlaveList slavelist = new SlaveList
+                    /*SlaveList slavelist = new SlaveList
                     {
                         SlaveId = HWMsg.SlaveId,
                         State = state,
                         Streams =null,
                         UsersConnections = UserUpdated,
-                    };
-                    foreach (var item in Streams.Keys)
+                    };*/
+                   /* foreach (var item in Streams.Keys)
                     {
                         if (item == slavelist.SlaveId)
                         {
@@ -177,7 +177,7 @@ namespace AnalyticsServer.HostedServices
                                 
                             }
                         }
-                    }
+                    }*/
                     StreamsWorking streams = new StreamsWorking
                     {
                         Working = working,
@@ -185,16 +185,16 @@ namespace AnalyticsServer.HostedServices
                     };
 
 
-                    var newSlaves = new SlaveList {    SlaveId = HWMsg.SlaveId, State = state, Streams = streams, UsersConnections = userGeneral };
+                    //var newSlaves = new SlaveList {    SlaveId = HWMsg.SlaveId,/* State = state*/ Streams = streams, UsersInfo = userGeneral };
 
-                    if (Slaves.TryGetValue( HWMsg.SlaveId, out var slaveList))
+                    /*if (Slaves.TryGetValue( HWMsg.SlaveId, out var slaveList))
                     {
                         Slaves.TryUpdate(HWMsg.SlaveId, newSlaves, slaveList);
                         return;
 
                     }
 
-                    Slaves.TryAdd(HWMsg.SlaveId, newSlaves);
+                    Slaves.TryAdd(HWMsg.SlaveId, newSlaves);*/
 
                     int netInTotal = 0;
                     int netOuTotal = 0;
@@ -205,7 +205,7 @@ namespace AnalyticsServer.HostedServices
 
                     string strSize = string.Empty;
                     string strAvailable = string.Empty;
-                    foreach (var item in Slaves.Keys)
+                    /*foreach (var item in Slaves.Keys)
                     {
                         for (int i = 0; i < Slaves[item].State.Disk.Count; i++)
                         {
@@ -223,7 +223,7 @@ namespace AnalyticsServer.HostedServices
                             
                             DiskSizeTotal = DiskSize + DiskSizeTotal;
                         }
-                    }
+                    }*/
 
 
 
@@ -240,7 +240,7 @@ namespace AnalyticsServer.HostedServices
                     
                     
                     
-                    Cache.Models.Index index = new Cache.Models.Index
+                   /* Cache.Models.Index index = new Cache.Models.Index
                     {
                         NetInTotal = netInTotal + HWMsg.State.Io.NetIn,
                         NetOutTotal = netOuTotal + HWMsg.State.Io.NetOut,
@@ -248,11 +248,11 @@ namespace AnalyticsServer.HostedServices
                         AvailableTotal = DiskAvailableTotal,
                         TotalOnlineUsers = usr,
                         TotalOnlineConnections = conn,
-                        Slaves = Slaves,
+                        Slaves = slaves,
                         
 
                     };
-                    Cache.HardwareCache.UpdateServerHardwear(Slaves);   
+                    Cache.HardwareCache.UpdateServerHardwear(Slaves);   */
                 }
             });
         }
