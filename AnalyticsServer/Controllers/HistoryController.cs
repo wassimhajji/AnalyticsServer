@@ -16,7 +16,7 @@ namespace AnalyticsServer.Controllers
 
        
         [HttpGet]
-        [Authorize]
+        //[Authorize]
 
         public IActionResult Index(string Id, int minutes)
         {

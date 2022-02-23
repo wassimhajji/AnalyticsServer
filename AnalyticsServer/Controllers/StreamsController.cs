@@ -9,7 +9,7 @@ namespace AnalyticsServer.Controllers
     public class StreamsController : Controller
     {
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult Index()
         {
             return Ok(StreamCache.GetAllStreams());

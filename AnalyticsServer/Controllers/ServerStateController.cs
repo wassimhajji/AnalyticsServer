@@ -13,7 +13,7 @@ namespace AnalyticsServer.Controllers
     public class ServerStateController : ControllerBase
     {
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult Get()
         {
             

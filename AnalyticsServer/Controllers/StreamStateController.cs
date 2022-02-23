@@ -14,7 +14,7 @@ namespace AnalyticsServer.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult Get(int Id)
         {
            return Ok(StreamCache.GetStreams(Id));
