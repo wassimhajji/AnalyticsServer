@@ -38,7 +38,7 @@ namespace AnalyticsServer.Cache
         }
         public static StreamUpdate GetStreams(int Id)
         {
-            StreamMessages str = new StreamMessages();
+            StreamMessages? str = new StreamMessages();
             //StreamMessages str1 = new StreamMessages();
             StreamUpdate str2 = new StreamUpdate();
              str = Streams.Values.FirstOrDefault();

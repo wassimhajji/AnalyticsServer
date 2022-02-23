@@ -11,12 +11,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.Application;
+
 using Swashbuckle.AspNetCore.Filters;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Channels;
-using System.Web.Http;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();

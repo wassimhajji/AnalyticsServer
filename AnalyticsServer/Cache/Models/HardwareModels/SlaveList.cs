@@ -8,8 +8,8 @@ namespace AnalyticsServer.Cache.Models
     {
         //public string SlaveId { get; set; }
         //public SlaveState State { get; set; }
-        public HWModel SlaveInfo { get; set; }
-        public StreamsWorking Streams { get; set; } 
-        public UsersConnections UsersInfo { get; set; }    
+        public HWModel? SlaveInfo { get; set; }
+        public StreamsWorking? Streams { get; set; } 
+        public UsersConnections? UsersInfo { get; set; }    
     }
 }

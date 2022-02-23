@@ -18,7 +18,7 @@ namespace AnalyticsServer.DbHostedServices
 
         private async void ReadAndSaveMessages(CancellationToken stoppingToken)
         {
-            _ = Task.Run(async () =>
+            _ =  Task.Run(async () =>
             {
                 while(await _channelReader.WaitToReadAsync(stoppingToken))
                 {

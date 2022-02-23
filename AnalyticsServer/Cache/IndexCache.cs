@@ -12,8 +12,8 @@ namespace AnalyticsServer.Cache
         {
             int Intotal = 0;
             int outTotal = 0;
-            int size = 0;
-            int dispo = 0;
+            //int size = 0;
+           // int dispo = 0;
             int users = 0;
             int connections = 0;
 

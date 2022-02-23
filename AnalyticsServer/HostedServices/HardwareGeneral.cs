@@ -196,12 +196,12 @@ namespace AnalyticsServer.HostedServices
 
                     Slaves.TryAdd(HWMsg.SlaveId, newSlaves);*/
 
-                    int netInTotal = 0;
+                   /* int netInTotal = 0;
                     int netOuTotal = 0;
-                    int DiskSize = 0;
+                    int DiskSize = 0;*/
                     //int DiskAvailable = 0;
-                    int DiskSizeTotal = 0;
-                    int DiskAvailableTotal = 0;
+                   /* int DiskSizeTotal = 0;
+                    int DiskAvailableTotal = 0;*/
 
                     string strSize = string.Empty;
                     string strAvailable = string.Empty;

@@ -6,7 +6,7 @@ namespace AnalyticsServer.MessagesDatabase
     {
         [Key]
         public Guid Id { get; set; }
-        public string SlaveId { get; set; }
+        public string? SlaveId { get; set; }
         public DateTime TimeAdded { get; set; } 
         public double CpuUser { get; set; }
         public double CpuNice { get; set; }
@@ -25,7 +25,7 @@ namespace AnalyticsServer.MessagesDatabase
         public int RamBoot { get; set; }
         public int IONetIn { get; set; }
         public int IONetOut { get; set; }
-        public string IOTime { get; set; }
+        public string? IOTime { get; set; }
         public int IODiskRead { get; set; }
         public int IODiskWrite { get; set; }
         

@@ -25,7 +25,7 @@ namespace AnalyticsServer.DbHostedServices
                     var msg = await _channelReader.ReadAsync(stoppingToken);
                     foreach (var item in msg.State.Disks)
                     {
-                        var model = _db.HardwareDisks.OrderByDescending(s => s.TimeAdded).FirstOrDefault();
+                        var model = _db.HardwareDisks?.OrderByDescending(s => s.TimeAdded).FirstOrDefault();
                         Console.WriteLine($"the last row is {model}");
 
                         HardwareDisks disk = new HardwareDisks
