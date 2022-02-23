@@ -8,7 +8,7 @@ namespace AnalyticsServer.Controllers
     public class StreamGroupingController : Controller
     {
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IActionResult Index()
         {
             return Ok(Cache.StreamGroupingCache.GetAllStreamGroupings());

@@ -14,7 +14,7 @@ namespace AnalyticsServer.Controllers
             _db = db;
         }
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IActionResult Index(string Id, int minutes)
         {
             var RollBack = DateTime.Now.AddMinutes(-minutes);

@@ -30,19 +30,19 @@ builder.Services.AddHostedService<SlaveHWConsumer>();
 //builder.Services.AddHostedService<IndexService>();
 builder.Services.AddHostedService<StreamsConsumer>();
 builder.Services.AddHostedService<UsersConnectionConsumer>();
-//builder.Services.AddHostedService<HWDb>();
-//builder.Services.AddHostedService<HWDisksDb>();
-//builder.Services.AddHostedService<StreamsDb>();
+builder.Services.AddHostedService<HWDb>();
+builder.Services.AddHostedService<HWDisksDb>();
+builder.Services.AddHostedService<StreamsDb>();
 builder.Services.AddHostedService<VodConsumer>();
-//builder.Services.AddHostedService<VodDb>();
+builder.Services.AddHostedService<VodDb>();
 builder.Services.AddHostedService<HardwareGeneral>();
-//builder.Services.AddHostedService<UsersConnectionDb>();
+builder.Services.AddHostedService<UsersConnectionDb>();
 builder.Services.AddHostedService<StreamGroupingConsumer>();
-//builder.Services.AddHostedService<StreamGroupingDb>();
-//builder.Services.AddHostedService<DataClear>();
+builder.Services.AddHostedService<StreamGroupingDb>();
+builder.Services.AddHostedService<DataClear>();
 builder.Services.AddHostedService<GroupingByCountryConsumer>();
-//builder.Services.AddHostedService<CountryGroupingDb>();
-//builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHostedService<CountryGroupingDb>();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

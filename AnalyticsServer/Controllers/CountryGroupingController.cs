@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AnalyticsServer.Controllers
 {
@@ -7,6 +8,7 @@ namespace AnalyticsServer.Controllers
     public class CountryGroupingController : Controller
     {
         [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
             return Ok(Cache.GroupingByCountryCache.GetAllCountryGroupings());
