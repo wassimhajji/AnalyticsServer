@@ -1,16 +1,21 @@
 pipeline {
  agent any
 stages {
- stage('Release') {
+ stage('Build') {
      steps {
-         sh "sudo systemctl stop analytics.service"
-         sh "sudo dotnet publish -c Release --output /var/www/analytics"
+      sshagent(credentials : ['6f9579ef-f26f-4c38-aa34-b2e8ea667c07']) {
+            sh 'ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
+            sh 'ssh -v root@147.182.240.158 "cd /home/AnalyticsServer/AnalyticsServer && dotnet publish -c Release --output /var/www/analytics" '
+               }
             }
                    }
 
- stage ('Start') {
+ stage ('Run') {
     steps{
-         sh "sudo systemctl restart analytics.service"
+        sshagent(credentials : ['6f9579ef-f26f-4c38-aa34-b2e8ea667c07']) {
+            sh 'ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
+            sh 'ssh -v root@147.182.240.158 "systemctl restart analytics.service" '
+               }
          }
                  }
        }
