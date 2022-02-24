@@ -3,7 +3,7 @@ pipeline {
 stages {
  stage('Pull') {
      steps {
-      sshagent(credentials : ['6e0e3d94-0c97-447d-8e2a-d0e2857105c0']) {
+      sshagent(credentials : ['bdf590a9-941e-4146-bedc-4c815c8c5652']) {
             sh 'ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
             sh 'ssh -v root@147.182.240.158 "cd /home/AnalyticsServer/AnalyticsServer && git pull" '
                }
@@ -12,7 +12,7 @@ stages {
   
    stage('Build') {
      steps {
-      sshagent(credentials : ['6e0e3d94-0c97-447d-8e2a-d0e2857105c0']) {
+      sshagent(credentials : ['bdf590a9-941e-4146-bedc-4c815c8c5652']) {
             sh 'ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
             sh 'ssh -v root@147.182.240.158 "cd /home/AnalyticsServer/AnalyticsServer && dotnet publish -c Release --output /var/www/analytics" '
                }
@@ -21,7 +21,7 @@ stages {
 
  stage ('Run') {
     steps{
-        sshagent(credentials : ['6e0e3d94-0c97-447d-8e2a-d0e2857105c0']) {
+        sshagent(credentials : ['bdf590a9-941e-4146-bedc-4c815c8c5652']) {
             sh 'ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
             sh 'ssh -v root@147.182.240.158 "systemctl restart analytics.service" '
                }
