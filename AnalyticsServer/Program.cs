@@ -97,6 +97,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+builder.WebHost.UseUrls("http://localhost:5002");
+
 
 
 
