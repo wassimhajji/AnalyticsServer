@@ -1,0 +1,17 @@
+pipeline {
+ agent any
+stages {
+ stage('Release') {
+     steps {
+         sh "sudo systemctl stop analytics.service"
+         sh "sudo dotnet publish -c Release --output /var/www/analytics"
+            }
+                   }
+
+ stage ('Start') {
+    steps{
+         sh "sudo systemctl restart analytics.service"
+         }
+                 }
+       }
+}
