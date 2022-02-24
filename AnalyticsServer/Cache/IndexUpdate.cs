@@ -157,7 +157,7 @@ namespace AnalyticsServer.Cache
                                     
                                     var num = decimal.Parse(disk.Size.Remove(i, 1));
                                     qSize.Enqueue(num);
-                                    sum = num + x;
+                                   // sum = num + x;
                                 }
                                 if (disk.Size[i] == 'M')
                                 {
@@ -166,7 +166,7 @@ namespace AnalyticsServer.Cache
                                     var num = decimal.Parse(disk.Size.Remove(i, 1));
                                     qSize.Enqueue(num);
                                     x = num;
-                                    sum = num + x;
+                                   // sum = num + x;
                                 }
                                 
                             }
