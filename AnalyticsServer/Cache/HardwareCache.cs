@@ -54,7 +54,7 @@ namespace AnalyticsServer.Cache
             {
                 NetInTotal = netIn,
                 NetOutTotal = netOut,
-                DiskCapacityTotal = 0.ToString(),
+                DiskCapacityTotal = 0,
                 //AvailableTotal = 0,
                 TotalOnlineUsers = users,
                 TotalOnlineConnections = connections,

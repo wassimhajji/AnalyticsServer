@@ -222,7 +222,7 @@ namespace AnalyticsServer.Cache
                 index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
                 index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
                 index.DiskCapacityTotal = summ;
-                index.AvailableTotal = sumAv.ToString();
+                index.AvailableTotal = sumAv;
             }
 
             
