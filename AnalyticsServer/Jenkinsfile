@@ -4,7 +4,7 @@ stages {
  stage('Pull') {
      steps {
       sshagent(credentials : ['']) {
-            sh 'ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
+            sh 'sudo ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
             sh 'ssh -v root@147.182.240.158 "cd /home/AnalyticsServer/AnalyticsServer && git pull" '
                }
             }
