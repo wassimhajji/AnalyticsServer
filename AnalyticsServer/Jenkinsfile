@@ -3,7 +3,7 @@ pipeline {
 stages {
  stage('Pull') {
      steps {
-      sshagent(credentials : ['bdf590a9-941e-4146-bedc-4c815c8c5652']) {
+      sshagent(credentials : ['']) {
             sh 'ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
             sh 'ssh -v root@147.182.240.158 "cd /home/AnalyticsServer/AnalyticsServer && git pull" '
                }
