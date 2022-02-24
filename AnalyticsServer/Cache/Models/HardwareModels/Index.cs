@@ -9,7 +9,7 @@ namespace AnalyticsServer.Cache.Models
     {
         public int NetInTotal { get; set; }
         public int NetOutTotal { get; set; }
-        public string? DiskCapacityTotal { get; set; }
+        public decimal? DiskCapacityTotal { get; set; }
         public string? AvailableTotal { get; set; }
         public int TotalOnlineUsers { get; set; }   
         public int TotalOnlineConnections { get; set; }

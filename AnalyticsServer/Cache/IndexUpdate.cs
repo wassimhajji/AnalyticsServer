@@ -97,7 +97,7 @@ namespace AnalyticsServer.Cache
                                 }
                                 if (disk.Size[i] == 'M')
                                 {
-                                    disk.Size.Replace('.', '2');
+                                    disk.Size.Replace('.', ',');
                                     //str.Remove(i-1,1);
                                     Console.WriteLine($"the string from index issss {disk.Size.Remove(i, 1)}");
                                     var num = decimal.Parse(disk.Size.Remove(i, 1));
@@ -194,7 +194,7 @@ namespace AnalyticsServer.Cache
                                 }
                                 if (disk.Available[i] == 'M')
                                 {
-                                    disk.Available.Replace('.', '2');
+                                    disk.Available.Replace('.', ',');
                                     //str.Remove(i-1,1);
                                     Console.WriteLine($"the string from index issss {disk.Available.Remove(i, 1)}");
                                     var numm = decimal.Parse(disk.Available.Remove(i, 1));
@@ -221,7 +221,7 @@ namespace AnalyticsServer.Cache
                 index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
                 index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
                 index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
-                index.DiskCapacityTotal = summ.ToString();
+                index.DiskCapacityTotal = summ;
                 index.AvailableTotal = sumAv.ToString();
             }
 
