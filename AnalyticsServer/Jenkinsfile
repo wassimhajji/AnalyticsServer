@@ -9,6 +9,15 @@ stages {
                }
             }
                    }
+ 
+  stage ('Stop') {
+    steps{
+        sshagent(credentials : ['bdf590a9-941e-4146-bedc-4c815c8c5652']) {
+            sh 'sudo ssh -o StrictHostKeyChecking=no root@147.182.240.158 uptime'
+            sh 'sudo ssh -v root@147.182.240.158 "systemctl stop analytics.service" '
+               }
+         }
+                 }
   
    stage('Build') {
      steps {
