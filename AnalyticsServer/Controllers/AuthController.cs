@@ -22,7 +22,7 @@ namespace AnalyticsServer.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        
         public ActionResult<string> GetCred()
         {
             var userName = User?.Identity?.Name;
