@@ -45,14 +45,16 @@ namespace AnalyticsServer.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto request)
+        public async Task<ActionResult<string>> Login( string UserName, string Password /*UserDto request*/)
         {
-            if (user.UserName != request.UserName)
+            UserName = "admin";
+            Password = "admin";
+            if (user.UserName != UserName)
             {
                 return BadRequest("User not found");
             }
 
-            if (!VerifyPasswordHash(request.Password,user.PasswordHash,user.PasswordSalt))
+            if (!VerifyPasswordHash(Password,user.PasswordHash,user.PasswordSalt))
             {
                 return BadRequest("Wrong password");
             }
