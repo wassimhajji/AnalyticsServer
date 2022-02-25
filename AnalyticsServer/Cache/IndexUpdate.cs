@@ -92,7 +92,7 @@ namespace AnalyticsServer.Cache
                                     var str = disk.Size.Remove(i, 1).Replace('.', ',');
                                     Console.WriteLine($"the string from index is {str}");
                                     var num = decimal.Parse(str);
-                                    x = num ;
+                                    
                                     qSize.Enqueue(num);
                                 }
                                 if (disk.Size[i] == 'M')
@@ -125,7 +125,7 @@ namespace AnalyticsServer.Cache
                                     var strr = disk.Available.Remove(i, 1).Replace('.', ',');
                                     Console.WriteLine($"the string from index is {strr}");
                                     var numm = decimal.Parse(strr);
-                                    x = numm;
+                                    
                                     qAvailable.Enqueue(numm);
                                 }
                                 if (disk.Available[i] == 'M')
@@ -189,7 +189,7 @@ namespace AnalyticsServer.Cache
                                     var strr = disk.Available.Remove(i, 1).Replace('.', ',');
                                     Console.WriteLine($"the string from index is {strr}");
                                     var numm = decimal.Parse(strr);
-                                    x = numm;
+                                    
                                     qAvailable.Enqueue(numm);
                                 }
                                 if (disk.Available[i] == 'M')
@@ -210,12 +210,13 @@ namespace AnalyticsServer.Cache
                 decimal summ = 0;
                 foreach (decimal num in qSize)
                 {
-                    summ = summ + num;
+                    //summ = summ + num;
+                    summ += num;
                 }
                 decimal sumAv = 0;
                 foreach (var numm in qAvailable)
                 {
-                    sumAv = sumAv + numm;
+                    sumAv += numm;
                 }
                 index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
                 index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
