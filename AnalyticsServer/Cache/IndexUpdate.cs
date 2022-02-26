@@ -247,7 +247,7 @@ namespace AnalyticsServer.Cache
             {
                 foreach (var disk  in item.Value.SlaveInfo.State.Disks)
                 {
-                    if (disk.Size.Contains('.'))
+                    if (disk.Size.Contains("."))
                     {
                         
                         var str = disk.Size.Remove(disk.Size.Length-1, 1);
@@ -259,13 +259,13 @@ namespace AnalyticsServer.Cache
                             if (str[i] == '.')
                             {
                                 strr = str.Remove(i, 1);
-                                strrr = strr.Insert(i - 1, ",");
+                                strrr = strr.Insert(i , ",");
                             }
                         }
                         var numm = decimal.Parse(strrr);
                         qSize.Enqueue(numm);
                     }
-                    if (!disk.Size.Contains('.'))
+                    if (!disk.Size.Contains("."))
                     {
                         
                         var str = disk.Size.Remove(disk.Size.Length - 1, 1);
