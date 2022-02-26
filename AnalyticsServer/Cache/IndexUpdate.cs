@@ -229,8 +229,8 @@ namespace AnalyticsServer.Cache
                 index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
                 index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
                 index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
-                index.DiskCapacityTotal = summ;
-                index.AvailableTotal = sumAv;
+                index.DiskCapacityTotal = summ.ToString();
+                index.AvailableTotal = sumAv.ToString();
             }
 
 
