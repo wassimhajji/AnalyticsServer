@@ -11,7 +11,7 @@ namespace AnalyticsServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : Controller
     {
         public static User user = new User();
         private readonly IConfiguration _configuration;

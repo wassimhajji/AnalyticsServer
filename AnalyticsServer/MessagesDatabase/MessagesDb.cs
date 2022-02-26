@@ -1,6 +1,7 @@
 ﻿using AnalyticsServer.DbHostedServices;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using AnalyticsServer.Authentication;
 
 namespace AnalyticsServer.MessagesDatabase
 {
@@ -14,7 +15,8 @@ namespace AnalyticsServer.MessagesDatabase
         public DbSet<Vod>? Vod { get; set; }
         public DbSet<UsersConnectionModel>? UsersConnection { get; set; }
         public DbSet<StreamGrouping>? StreamsGrouping { get; set; }
-        public DbSet<CountryGroupingModel>? CountryGrouping { get; set; }    
+        public DbSet<CountryGroupingModel>? CountryGrouping { get; set; }   
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,5 +28,8 @@ namespace AnalyticsServer.MessagesDatabase
             modelBuilder.Entity<UsersConnectionModel>()
                 .HasKey(o => new { o.Id });
         }
+       
+
+        public DbSet<AnalyticsServer.Authentication.UserDto> UserDto { get; set; }
     }
 }
