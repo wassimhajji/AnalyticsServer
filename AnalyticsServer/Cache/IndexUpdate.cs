@@ -78,7 +78,7 @@ namespace AnalyticsServer.Cache
                     //var str = disk.Size;
                     if (disk.Size.Contains('.'))
                     {
-                        disk.Size.Replace('.', ',');
+                        //disk.Size.Replace('.', ',');
                         for (int i = 0; i < disk.Size.Length; i++)
                         {
 
@@ -86,7 +86,7 @@ namespace AnalyticsServer.Cache
                             {
                                 if (disk.Size[i] == 'G')
                                 {
-
+                                    disk.Size.Replace('.', ',');
                                     Console.WriteLine($"the string from index issss {disk.Size.Remove(i, 1)}");
                                     //var num = float.Parse(str.Remove(i, 1));
                                     var str = disk.Size.Remove(i, 1).Replace('.', ',');
