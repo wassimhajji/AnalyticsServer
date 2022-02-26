@@ -111,18 +111,18 @@ namespace AnalyticsServer.Cache
                     }
                     if (disk.Available.Contains('.'))
                     {
-                        disk.Available.Replace('.', ',');
-                        for (int i = 0; i < disk.Available.Length; i++)
+                        var size = disk.Available.Replace('.', ',');
+                        for (int i = 0; i < size.Length; i++)
                         {
 
-                            if (char.IsLetter(disk.Available[i]))
+                            if (char.IsLetter(size[i]))
                             {
                                 if (disk.Available[i] == 'G')
                                 {
-
+                                    //disk.Available.Replace('.', ',');
                                     Console.WriteLine($"the string from index issss {disk.Available.Remove(i, 1)}");
                                     //var num = float.Parse(str.Remove(i, 1));
-                                    var strr = disk.Available.Remove(i, 1).Replace('.', ',');
+                                    var strr = size.Remove(i, 1);
                                     Console.WriteLine($"the string from index is {strr}");
                                     var numm = decimal.Parse(strr);
 
