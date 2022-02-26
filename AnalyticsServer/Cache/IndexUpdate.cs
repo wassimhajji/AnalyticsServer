@@ -249,9 +249,27 @@ namespace AnalyticsServer.Cache
                 {
                     if (disk.Size.Contains('.'))
                     {
-                        var str = disk.Size.Replace('.', ',');
-                        var strr = str.Remove(str.Length-1, 1);
-                        var numm = decimal.Parse(strr);
+                        
+                        var str = disk.Size.Remove(disk.Size.Length-1, 1);
+                        string strr = string.Empty;
+                        string strrr = string.Empty;
+
+                        for (int i = 0; i < str.Length; i++)
+                        {
+                            if (str[i] == '.')
+                            {
+                                strr = str.Remove(i, 1);
+                                strrr = strr.Insert(i - 1, ",");
+                            }
+                        }
+                        var numm = decimal.Parse(strrr);
+                        qSize.Enqueue(numm);
+                    }
+                    if (!disk.Size.Contains('.'))
+                    {
+                        
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str);
                         qSize.Enqueue(numm);
                     }
                 }
