@@ -259,7 +259,7 @@ namespace AnalyticsServer.Cache
                             if (str[i] == '.')
                             {
                                 strr = str.Remove(i, 1);
-                                strrr = strr.Insert(i , ",");
+                                strrr = strr.Insert(i+1 , ",");
                             }
                         }
                         var numm = decimal.Parse(strrr);
