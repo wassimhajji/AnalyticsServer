@@ -254,14 +254,14 @@ namespace AnalyticsServer.Cache
                         string strr = string.Empty;
                         string strrr = string.Empty;
 
-                        /*for (int i = 0; i < str.Length; i++)
+                        for (int i = 0; i < str.Length; i++)
                         {
                             if (str[i] == '.')
                             {
                                 strr = str.Remove(i, 1);
-                                strrr = strr.Insert(i , ",");
+                                strrr = strr.Insert(i-1 , ",");
                             }
-                        }*/
+                        }
                         strrr = str.Replace('.', ',');
                         var numm = Convert.ToDecimal(strrr);
                         qSize.Enqueue(numm);
