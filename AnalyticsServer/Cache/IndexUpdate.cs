@@ -75,106 +75,59 @@ namespace AnalyticsServer.Cache
             {
                 foreach (var disk in slave.Value.SlaveInfo.State.Disks)
                 {
-
-                    if (disk.Size.Contains("."))
+                    if (disk.Size.Contains('G'))
                     {
-
-
-                        if (disk.Size.Contains('G'))
-                        {
-                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                            var numm = decimal.Parse(str);
-                            qSize.Enqueue(numm);
-                        }
-                        /*if (disk.Size.Contains('M'))
-                        {
-                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                            var num = decimal.Parse(str);
-                            var numm = num * 1000;
-                            qSize.Enqueue(numm);
-
-                        }*/
-                        if (disk.Available.Contains('G'))
-                        {
-                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
-                            var numm = decimal.Parse(str);
-                            qAvailable.Enqueue(numm);
-                        }
-                        /*if (disk.Available.Contains('M'))
-                        {
-                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
-                            var num = decimal.Parse(str);
-                            var numm = num * 1000;
-                            qAvailable.Enqueue(numm);
-
-
-
-                        }*/
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str);
+                        qSize.Enqueue(numm);
                     }
-                    if (!disk.Size.Contains("."))
+                    if (disk.Size.Contains('G'))
                     {
-                        if (disk.Size.Contains('G'))
-                        {
-                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                            var numm = decimal.Parse(str);
-                            qSize.Enqueue(numm);
-                        }
-                        /*if (disk.Size.Contains('M'))
-                        {
-                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                            var num = decimal.Parse(str);
-                            var numm = num * 1000;
-                            qSize.Enqueue(numm);
-
-                        }*/
-                        if (disk.Available.Contains('G'))
-                        {
-                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
-                            var numm = decimal.Parse(str);
-                            qAvailable.Enqueue(numm);
-                        }
-                        /*if (disk.Available.Contains('M'))
-                        {
-                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
-                            var num = decimal.Parse(str);
-                            var numm = num * 1000;
-                            qAvailable.Enqueue(numm);
-
-
-
-                        }*/
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str)/1000;
+                        qSize.Enqueue(numm);
                     }
 
-
-
-
-
+                    if (disk.Available.Contains('M'))
+                    {
+                        var str = disk.Available.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str) / 1000;
+                        qAvailable.Enqueue(numm);
+                    }
+                    if (disk.Available.Contains('G'))
+                    {
+                        var str = disk.Available.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str) ;
+                        qAvailable.Enqueue(numm);
+                    }
                 }
 
-                Console.WriteLine(qSize);
-                decimal summ = 0;
-                foreach (decimal num in qSize)
-                {
+                
 
-                    summ += num;
-                }
-                decimal sumAv = 0;
-                foreach (var numm in qAvailable)
-                {
-                    sumAv += numm;
-                }
-
-                index.Slaves = ServersList;
+                
                 index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
                 index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
                 index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
                 index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
-                index.DiskCapacityTotal = summ.ToString();
-                index.AvailableTotal = sumAv.ToString();
+                
 
 
             }
+            Console.WriteLine(qSize);
+            decimal summ = 0;
+            foreach (decimal num in qSize)
+            {
 
+                summ += num;
+            }
+            decimal sumAv = 0;
+            foreach (var numm in qAvailable)
+            {
+                sumAv += numm;
+            }
+            index.Slaves = ServersList;
+            index.DiskCapacityTotal = summ.ToString();
+            index.AvailableTotal = sumAv.ToString();
 
             return index;
         }
