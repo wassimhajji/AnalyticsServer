@@ -80,7 +80,7 @@ namespace AnalyticsServer.Cache
                         var num = decimal.Parse(str);
                         qSize.Enqueue(num);
                     }
-                    if (disk.Size.Contains("G"))
+                    if (disk.Size.Contains("M"))
                     {
                         var str = disk.Size.Remove(disk.Size.Length - 1, 1);
                         var num = decimal.Parse(str)/1024;
