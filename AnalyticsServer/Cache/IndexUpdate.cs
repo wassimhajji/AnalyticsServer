@@ -263,7 +263,7 @@ namespace AnalyticsServer.Cache
                             }
                         }*/
                         strrr = str.Replace('.', ',');
-                        var numm = decimal.Parse(strrr);
+                        var numm = Convert.ToDecimal(strrr);
                         qSize.Enqueue(numm);
                     }
                     if (!disk.Size.Contains("."))
