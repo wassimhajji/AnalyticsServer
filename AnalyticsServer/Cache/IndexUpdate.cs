@@ -81,21 +81,21 @@ namespace AnalyticsServer.Cache
                         var numm = decimal.Parse(str);
                         qSize.Enqueue(numm);
                     }
-                    if (disk.Size.Contains('M'))
+                    /*if (disk.Size.Contains('M'))
                     {
                         var str = disk.Size.Remove(disk.Size.Length - 1, 1);
                         var num = decimal.Parse(str);
                         var numm = num * 1000;
                         qSize.Enqueue(numm);
 
-                    }
+                    }*/
                     if (disk.Available.Contains('G'))
                     {
                         var str = disk.Available.Remove(disk.Size.Length - 1, 1);
                         var numm = decimal.Parse(str);
                         qAvailable.Enqueue(numm);
                     }
-                    if (disk.Available.Contains('M'))
+                    /*if (disk.Available.Contains('M'))
                     {
                         var str = disk.Available.Remove(disk.Size.Length - 1, 1);
                         var num = decimal.Parse(str);
@@ -104,7 +104,7 @@ namespace AnalyticsServer.Cache
 
 
 
-                    }
+                    }*/
                     Console.WriteLine(qSize);
                     decimal summ = 0;
                     foreach (decimal num in qSize)
@@ -118,11 +118,7 @@ namespace AnalyticsServer.Cache
                         sumAv += numm;
                     }
 
-                    decimal[] arr = qSize.ToArray();
-                    for (int i = 0; i < qSize.Count; i++)
-                    {
-                        Console.WriteLine($"numbers being summed are = {arr[i]}");
-                    }
+                    
 
                     index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
                     index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
