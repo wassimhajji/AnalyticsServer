@@ -13,9 +13,9 @@ namespace AnalyticsServer.Cache.Models
         public string AvailableTotal { get; set; }
         public int TotalOnlineUsers { get; set; }   
         public int TotalOnlineConnections { get; set; }
-        //public List<SlaveList>? Slaves { get; set; }
-        public ConcurrentDictionary<string, SlaveList>? Slaves { get; set; }
-        //public ConcurrentDictionary<string, ServerState> Slaves { get; set; }
+        public List<SlaveList>? Slaves { get; set; }
+        //public ConcurrentDictionary<string, SlaveList>? Slaves { get; set; }
+        
 
     }
 }

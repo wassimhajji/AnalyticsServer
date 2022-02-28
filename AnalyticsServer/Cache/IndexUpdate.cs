@@ -128,7 +128,13 @@ namespace AnalyticsServer.Cache
 
 
             }
-            index.Slaves = ServersList;
+            //index.Slaves = ServersList;
+            List<SlaveList> slaves = new List<SlaveList>();
+            foreach (var item in ServersList.Values)
+            {
+                slaves.Add(item);
+            }
+            index.Slaves = slaves;  
             return index;
         }
 
