@@ -15,7 +15,7 @@ namespace AnalyticsServer.Controllers
             //return Ok(Cache.IndexCache.updateIndex());
             //return Ok(Cache.IndexUpdate.GetAllSlaves());
             //return Ok(Cache.IndexUpdate.getQueue());
-            return Ok(Cache.IndexUpdate.getQueue ());    
+            return Ok(Cache.IndexUpdate.GetIndex ());    
 
         }
         

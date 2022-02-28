@@ -105,7 +105,7 @@ namespace AnalyticsServer.Cache
                 {
                     sumAv += numm;
                 }
-                index.Slaves = ServersList;
+                
                 index.DiskCapacityTotal = summ.ToString();
                 index.AvailableTotal = sumAv.ToString();
                 index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
@@ -117,8 +117,8 @@ namespace AnalyticsServer.Cache
 
 
 
-               
             }
+            index.Slaves = ServersList;
             return index;
         }
 
