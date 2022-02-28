@@ -75,77 +75,77 @@ namespace AnalyticsServer.Cache
             {
                 foreach (var disk in slave.Value.SlaveInfo.State.Disks)
                 {
-                    
-                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                        var numm = decimal.Parse(str);
-                        qSize.Enqueue(numm);
-                    
-                   
 
-                    
-                       
-                    
-                    
-                        var strr = disk.Available.Remove(disk.Size.Length - 1, 1);
-                        var num = decimal.Parse(str) ;
-                        qAvailable.Enqueue(num);
-                    
+                    var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                    var numm = decimal.Parse(str);
+                    qSize.Enqueue(numm);
+
+
+
+
+
+
+
+                    var strr = disk.Available.Remove(disk.Size.Length - 1, 1);
+                    var num = decimal.Parse(str);
+                    qAvailable.Enqueue(num);
+
                 }
 
-                
 
-                
+                Console.WriteLine(qSize);
+                decimal summ = 0;
+                foreach (decimal num in qSize)
+                {
+
+                    summ += num;
+                }
+                decimal sumAv = 0;
+                foreach (var numm in qAvailable)
+                {
+                    sumAv += numm;
+                }
+                index.Slaves = ServersList;
+                index.DiskCapacityTotal = summ.ToString();
+                index.AvailableTotal = sumAv.ToString();
                 index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
                 index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
                 index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
                 index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
-                
 
 
+
+
+
+               
             }
-            Console.WriteLine(qSize);
-            decimal summ = 0;
-            foreach (decimal num in qSize)
-            {
-
-                summ += num;
-            }
-            decimal sumAv = 0;
-            foreach (var numm in qAvailable)
-            {
-                sumAv += numm;
-            }
-            index.Slaves = ServersList;
-            index.DiskCapacityTotal = summ.ToString();
-            index.AvailableTotal = sumAv.ToString();
-
             return index;
         }
 
-        public static string getQueue()
-        {
-            Queue<decimal> qSize = new System.Collections.Generic.Queue<decimal>();
-            foreach (var item in ServersList)
+            public static string getQueue()
             {
-                foreach (var disk  in item.Value.SlaveInfo.State.Disks)
+                Queue<decimal> qSize = new System.Collections.Generic.Queue<decimal>();
+                foreach (var item in ServersList)
                 {
-                     
-                    var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                    var numm = decimal.Parse(str);
-                    qSize.Enqueue(numm);
+                    foreach (var disk in item.Value.SlaveInfo.State.Disks)
+                    {
+
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str);
+                        qSize.Enqueue(numm);
+                    }
                 }
-            }
-            decimal sum = 0;
-            string subresult = string.Empty;
-            foreach (var item in qSize)
-            {
-                sum += item;
-                subresult += $" || the number to sum is {item} ||";
-            }
+                decimal sum = 0;
+                string subresult = string.Empty;
+                foreach (var item in qSize)
+                {
+                    sum += item;
+                    subresult += $" || the number to sum is {item} ||";
+                }
 
-            string result = subresult + $" || la somme est {sum}";
+                string result = subresult + $" || la somme est {sum}";
 
-            return result;
+                return result;
+            }
         }
     }
-}
