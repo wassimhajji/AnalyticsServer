@@ -91,13 +91,13 @@ namespace AnalyticsServer.Cache
                     }
                     if (disk.Available.Contains('G'))
                     {
-                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var str = disk.Available.Remove(disk.Size.Length - 1, 1);
                         var numm = decimal.Parse(str);
                         qAvailable.Enqueue(numm);
                     }
                     if (disk.Available.Contains('M'))
                     {
-                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var str = disk.Available.Remove(disk.Size.Length - 1, 1);
                         var num = decimal.Parse(str);
                         var numm = num * 1000;
                         qAvailable.Enqueue(numm);
