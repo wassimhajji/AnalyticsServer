@@ -75,172 +75,73 @@ namespace AnalyticsServer.Cache
             {
                 foreach (var disk in slave.Value.SlaveInfo.State.Disks)
                 {
-                    //var str = disk.Size;
-                    if (disk.Size.Contains('.'))
+                    if (disk.Size.Contains('G'))
                     {
-                        //disk.Size.Replace('.', ',');
-                        for (int i = 0; i < disk.Size.Length; i++)
-                        {
-
-                            if (char.IsLetter(disk.Size[i]))
-                            {
-                                if (disk.Size[i] == 'G')
-                                {
-                                    disk.Size.Replace('.', ',');
-                                    Console.WriteLine($"the string from index issss {disk.Size.Remove(i, 1)}");
-                                    //var num = float.Parse(str.Remove(i, 1));
-                                    var str = disk.Size.Remove(i, 1).Replace('.', ',');
-                                    Console.WriteLine($"the string from index is {str}");
-                                    var num = decimal.Parse(str);
-
-                                    qSize.Enqueue(num);
-                                }
-                                if (disk.Size[i] == 'M')
-                                {
-                                    disk.Size.Replace('.', ',');
-                                    //str.Remove(i-1,1);
-                                    Console.WriteLine($"the string from index issss {disk.Size.Remove(i, 1)}");
-                                    var num = decimal.Parse(disk.Size.Remove(i, 1));
-                                    qSize.Enqueue(num);
-                                    x = num;
-                                    sum = num + x;
-                                }
-                            }
-
-                        }
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str);
+                        qSize.Enqueue(numm);
                     }
-                    if (disk.Available.Contains('.'))
+                    if (disk.Size.Contains('M'))
                     {
-                        var size = disk.Available.Replace('.', ',');
-                        for (int i = 0; i < size.Length; i++)
-                        {
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var num = decimal.Parse(str);
+                        var numm = num * 1000;
+                        qSize.Enqueue(numm);
 
-                            if (char.IsLetter(size[i]))
-                            {
-                                if (disk.Available[i] == 'G')
-                                {
-                                    //disk.Available.Replace('.', ',');
-                                    Console.WriteLine($"the string from index issss {disk.Available.Remove(i, 1)}");
-                                    //var num = float.Parse(str.Remove(i, 1));
-                                    var strr = size.Remove(i, 1);
-                                    Console.WriteLine($"the string from index is {strr}");
-                                    var numm = decimal.Parse(strr);
-
-                                    qAvailable.Enqueue(numm);
-                                }
-                                if (disk.Available[i] == 'M')
-                                {
-                                    disk.Available.Replace('.', '2');
-                                    //str.Remove(i-1,1);
-                                    Console.WriteLine($"the string from index issss {disk.Available.Remove(i, 1)}");
-                                    var numm = decimal.Parse(disk.Available.Remove(i, 1));
-                                    qAvailable.Enqueue(numm);
-
-                                }
-                            }
-
-                        }
                     }
-                    if (!disk.Size.Contains('.'))
+                    if (disk.Available.Contains('G'))
                     {
-
-
-                        for (int i = 0; i < disk.Size.Length; i++)
-                        {
-
-                            if (char.IsLetter(disk.Size[i]))
-                            {
-                                if (disk.Size[i] == 'G')
-                                {
-                                    //str.Remove(i-1,1);
-                                    Console.WriteLine($"the string from index is {disk.Size.Remove(i, 1)}");
-
-                                    var num = decimal.Parse(disk.Size.Remove(i, 1));
-                                    qSize.Enqueue(num);
-                                    // sum = num + x;
-                                }
-                                if (disk.Size[i] == 'M')
-                                {
-                                    //str.Remove(i-1,1);
-                                    Console.WriteLine($"the string from index is {disk.Size.Remove(i, 1)}");
-                                    var num = decimal.Parse(disk.Size.Remove(i, 1));
-                                    qSize.Enqueue(num);
-                                    x = num;
-                                    // sum = num + x;
-                                }
-
-                            }
-
-                        }
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(str);
+                        qAvailable.Enqueue(numm);
                     }
-                    if (!disk.Available.Contains('.'))
+                    if (disk.Available.Contains('M'))
                     {
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var num = decimal.Parse(str);
+                        var numm = num * 1000;
+                        qAvailable.Enqueue(numm);
 
-                        for (int i = 0; i < disk.Available.Length; i++)
-                        {
 
-                            if (char.IsLetter(disk.Available[i]))
-                            {
-                                if (disk.Available[i] == 'G')
-                                {
 
-                                    Console.WriteLine($"the string from index issss {disk.Available.Remove(i, 1)}");
-                                    //var num = float.Parse(str.Remove(i, 1));
-                                    var strr = disk.Available.Remove(i, 1).Replace('.', ',');
-                                    Console.WriteLine($"the string from index is {strr}");
-                                    var numm = decimal.Parse(strr);
-
-                                    qAvailable.Enqueue(numm);
-                                }
-                                if (disk.Available[i] == 'M')
-                                {
-                                    disk.Available.Replace('.', ',');
-                                    //str.Remove(i-1,1);
-                                    Console.WriteLine($"the string from index issss {disk.Available.Remove(i, 1)}");
-                                    var numm = decimal.Parse(disk.Available.Remove(i, 1));
-                                    qAvailable.Enqueue(numm);
-
-                                }
-                            }
-
-                        }
                     }
-                }
-                Console.WriteLine(qSize);
-                decimal summ = 0;
-                foreach (decimal num in qSize)
-                {
-                    //summ = summ + num;
-                    summ += num;
-                }
-                decimal sumAv = 0;
-                foreach (var numm in qAvailable)
-                {
-                    sumAv += numm;
+                    Console.WriteLine(qSize);
+                    decimal summ = 0;
+                    foreach (decimal num in qSize)
+                    {
+                        //summ = summ + num;
+                        summ += num;
+                    }
+                    decimal sumAv = 0;
+                    foreach (var numm in qAvailable)
+                    {
+                        sumAv += numm;
+                    }
+
+                    decimal[] arr = qSize.ToArray();
+                    for (int i = 0; i < qSize.Count; i++)
+                    {
+                        Console.WriteLine($"numbers being summed are = {arr[i]}");
+                    }
+
+                    index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
+                    index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
+                    index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
+                    index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
+                    index.DiskCapacityTotal = summ.ToString();
+                    index.AvailableTotal = sumAv.ToString();
                 }
 
-                decimal[] arr = qSize.ToArray();
-                for (int i = 0; i < qSize.Count; i++)
-                {
-                    Console.WriteLine($"numbers being summed are = {arr[i]}");
-                }
 
-                index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
-                index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
-                index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
-                index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
-                index.DiskCapacityTotal = summ.ToString();
-                index.AvailableTotal = sumAv.ToString();
+
+                index.Slaves = ServersList;
+
+                return index;
             }
-
-
-
-            index.Slaves = ServersList;
-
             return index;
         }
 
-        public static string getQueue()
+        /*public static string getQueue()
         {
             Queue<decimal> qSize = new System.Collections.Generic.Queue<decimal>();
             foreach (var item in ServersList)
@@ -272,7 +173,7 @@ namespace AnalyticsServer.Cache
                          var str = disk.Size.Remove(disk.Size.Length - 1, 1);
                          var numm = decimal.Parse(str);
                          qSize.Enqueue(numm);
-                     }*/
+                     }
                     var str = disk.Size.Remove(disk.Size.Length - 1, 1);
                     var numm = decimal.Parse(str);
                     qSize.Enqueue(numm);
@@ -289,6 +190,6 @@ namespace AnalyticsServer.Cache
             string result = subresult + $" || la somme est {sum}";
 
             return result;
-        }
+        }*/
     }
 }
