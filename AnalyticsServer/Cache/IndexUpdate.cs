@@ -78,15 +78,13 @@ namespace AnalyticsServer.Cache
                     var str = disk.Size.Remove(disk.Size.Length - 1, 1);
                     var numm = decimal.Parse(str);
                     qSize.Enqueue(numm);
+                }
+                foreach (var disk in slave.Value.SlaveInfo.State.Disks)
+                {
 
-
-
-
-
-
-
-                    
-
+                    var str = disk.Available.Remove(disk.Size.Length - 1, 1);
+                    var numm = decimal.Parse(str);
+                    qAvailable.Enqueue(numm);
                 }
 
 
