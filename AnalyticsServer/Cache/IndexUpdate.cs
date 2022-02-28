@@ -80,10 +80,22 @@ namespace AnalyticsServer.Cache
                         var num = decimal.Parse(str);
                         qSize.Enqueue(num);
                     }
+                    if (disk.Size.Contains("G"))
+                    {
+                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                        var num = decimal.Parse(str)/1024;
+                        qSize.Enqueue(num);
+                    }
                     if (disk.Available.Contains("G"))
                     {
                         var strr = disk.Available.Remove(disk.Available.Length - 1, 1);
                         var numm = decimal.Parse(strr);
+                        qAvailable.Enqueue(numm);
+                    }
+                    if (disk.Available.Contains("M"))
+                    {
+                        var strr = disk.Available.Remove(disk.Available.Length - 1, 1);
+                        var numm = decimal.Parse(strr)/1024;
                         qAvailable.Enqueue(numm);
                     }
                 }
