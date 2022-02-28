@@ -132,39 +132,14 @@ namespace AnalyticsServer.Cache
             return index;
         }
 
-        /*public static string getQueue()
+        public static string getQueue()
         {
             Queue<decimal> qSize = new System.Collections.Generic.Queue<decimal>();
             foreach (var item in ServersList)
             {
                 foreach (var disk  in item.Value.SlaveInfo.State.Disks)
                 {
-                    /* if (disk.Size.Contains("."))
-                     {
-
-                         var str = disk.Size.Remove(disk.Size.Length-1, 1);
-                         string strr = string.Empty;
-                         string strrr = string.Empty;
-
-                         for (int i = 0; i < str.Length; i++)
-                         {
-                             if (str[i] == '.')
-                             {
-                                 strr = str.Remove(i, 1);
-                                 strrr = strr.Insert(i-1 , ",");
-                             }
-                         }
-                         strrr = str.Replace('.', ',');
-                         var numm = Convert.ToDecimal(strrr);
-                         qSize.Enqueue(numm);
-                     }
-                     if (!disk.Size.Contains("."))
-                     {
-
-                         var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                         var numm = decimal.Parse(str);
-                         qSize.Enqueue(numm);
-                     }
+                     
                     var str = disk.Size.Remove(disk.Size.Length - 1, 1);
                     var numm = decimal.Parse(str);
                     qSize.Enqueue(numm);
@@ -181,6 +156,6 @@ namespace AnalyticsServer.Cache
             string result = subresult + $" || la somme est {sum}";
 
             return result;
-        }*/
+        }
     }
 }
