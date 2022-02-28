@@ -80,17 +80,13 @@ namespace AnalyticsServer.Cache
                         var num = decimal.Parse(str);
                         qSize.Enqueue(num);
                     }
-                    if (disk.Available.Contains("G"))
-                    {
-                        var strr = disk.Available.Remove(disk.Size.Length - 1, 1);
-                        var numm = decimal.Parse(strr);
-                        qAvailable.Enqueue(numm);
-                    }
+                    
+                    
                 }
                 
 
 
-                Console.WriteLine(qSize);
+                
                 decimal summ = 0;
                 foreach (var num in qSize)
                 {
