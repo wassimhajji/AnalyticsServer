@@ -77,13 +77,13 @@ namespace AnalyticsServer.Cache
                     if (disk.Size.Contains("G"))
                     {
                         var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                        var numm = decimal.Parse(str);
-                        qSize.Enqueue(numm);
+                        var num = decimal.Parse(str);
+                        qSize.Enqueue(num);
                     }
                     if (disk.Available.Contains("G"))
                     {
-                        var str = disk.Available.Remove(disk.Size.Length - 1, 1);
-                        var numm = decimal.Parse(str);
+                        var strr = disk.Available.Remove(disk.Size.Length - 1, 1);
+                        var numm = decimal.Parse(strr);
                         qAvailable.Enqueue(numm);
                     }
                 }
@@ -92,7 +92,7 @@ namespace AnalyticsServer.Cache
 
                 Console.WriteLine(qSize);
                 decimal summ = 0;
-                foreach (decimal num in qSize)
+                foreach (var num in qSize)
                 {
 
                     summ += num;
