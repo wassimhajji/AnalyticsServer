@@ -75,41 +75,80 @@ namespace AnalyticsServer.Cache
             {
                 foreach (var disk in slave.Value.SlaveInfo.State.Disks)
                 {
-                    if (disk.Size.Contains('G'))
+
+                    if (disk.Size.Contains("."))
                     {
-                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                        var numm = decimal.Parse(str);
-                        qSize.Enqueue(numm);
+
+
+                        if (disk.Size.Contains('G'))
+                        {
+                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                            var numm = decimal.Parse(str);
+                            qSize.Enqueue(numm);
+                        }
+                        /*if (disk.Size.Contains('M'))
+                        {
+                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                            var num = decimal.Parse(str);
+                            var numm = num * 1000;
+                            qSize.Enqueue(numm);
+
+                        }*/
+                        if (disk.Available.Contains('G'))
+                        {
+                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
+                            var numm = decimal.Parse(str);
+                            qAvailable.Enqueue(numm);
+                        }
+                        /*if (disk.Available.Contains('M'))
+                        {
+                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
+                            var num = decimal.Parse(str);
+                            var numm = num * 1000;
+                            qAvailable.Enqueue(numm);
+
+
+
+                        }*/
                     }
-                    /*if (disk.Size.Contains('M'))
+                    if (!disk.Size.Contains("."))
                     {
-                        var str = disk.Size.Remove(disk.Size.Length - 1, 1);
-                        var num = decimal.Parse(str);
-                        var numm = num * 1000;
-                        qSize.Enqueue(numm);
+                        if (disk.Size.Contains('G'))
+                        {
+                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                            var numm = decimal.Parse(str);
+                            qSize.Enqueue(numm);
+                        }
+                        /*if (disk.Size.Contains('M'))
+                        {
+                            var str = disk.Size.Remove(disk.Size.Length - 1, 1);
+                            var num = decimal.Parse(str);
+                            var numm = num * 1000;
+                            qSize.Enqueue(numm);
 
-                    }*/
-                    if (disk.Available.Contains('G'))
-                    {
-                        var str = disk.Available.Remove(disk.Size.Length - 1, 1);
-                        var numm = decimal.Parse(str);
-                        qAvailable.Enqueue(numm);
+                        }*/
+                        if (disk.Available.Contains('G'))
+                        {
+                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
+                            var numm = decimal.Parse(str);
+                            qAvailable.Enqueue(numm);
+                        }
+                        /*if (disk.Available.Contains('M'))
+                        {
+                            var str = disk.Available.Remove(disk.Size.Length - 1, 1);
+                            var num = decimal.Parse(str);
+                            var numm = num * 1000;
+                            qAvailable.Enqueue(numm);
+
+
+
+                        }*/
                     }
-                    /*if (disk.Available.Contains('M'))
-                    {
-                        var str = disk.Available.Remove(disk.Size.Length - 1, 1);
-                        var num = decimal.Parse(str);
-                        var numm = num * 1000;
-                        qAvailable.Enqueue(numm);
 
 
 
-                    }*/
-                   
 
-                    
 
-                    
                 }
 
                 Console.WriteLine(qSize);
