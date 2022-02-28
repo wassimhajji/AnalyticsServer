@@ -68,8 +68,7 @@ namespace AnalyticsServer.Cache
         {
             Queue<decimal> qSize = new System.Collections.Generic.Queue<decimal>();
             Queue<decimal> qAvailable = new System.Collections.Generic.Queue<decimal>();
-            decimal x = 0;
-            decimal sum = 0;
+            
             var index = new Cache.Models.Index();
             foreach (var slave in ServersList)
             {
@@ -86,9 +85,7 @@ namespace AnalyticsServer.Cache
 
 
 
-                    var strr = disk.Available.Remove(disk.Size.Length - 1, 1);
-                    var num = decimal.Parse(str);
-                    qAvailable.Enqueue(num);
+                    
 
                 }
 
