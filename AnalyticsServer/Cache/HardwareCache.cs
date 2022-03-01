@@ -11,23 +11,23 @@ namespace AnalyticsServer.Cache
         
         public static void UpdateServerHardwear(ConcurrentDictionary<string, SlaveList> Slaves )
         {
-            /*int Intotal = 0;
+            int Intotal = 0;
             int outTotal = 0;
             int size = 0;
-            int dispo = 0;*/
+            int dispo = 0;
             int users = 0;
             int connections = 0;
 
-            /*foreach (var item in Slaves.Keys)
+            foreach (var item in Slaves.Keys)
             {
                 //Intotal = Slaves[item].State.Io.NetIn + Intotal;
-                outTotal = Slaves[item].State.Io.NetOut + outTotal;
-            }*/
+                //outTotal = Slaves[item].State.Io.NetOut + outTotal;
+            }
 
-            /*
+            
             SlaveList list = new SlaveList();
 
-            foreach (var item in Slaves.Keys)
+           /* foreach (var item in Slaves.Keys)
             {
                 list = Slaves[item];
                 Intotal = list.State.Io.NetIn + Intotal;    
@@ -37,7 +37,7 @@ namespace AnalyticsServer.Cache
             var user = Cache.UsersConnectionCache.GetAllUsersAndConnections();
             var disk = Cache.ServerCache.GetAllServers();
             int netIn = 0;
-            int netOut = 0;
+           // int netOut = 0;*/
             
            /* foreach (var item in Slaves.Values)
             {
@@ -53,7 +53,7 @@ namespace AnalyticsServer.Cache
             Models.Index model = new Models.Index
             {
                 NetInTotal = netIn,
-                NetOutTotal = netOut,
+               // NetOutTotal = netOut,
                // DiskCapacityTotal = 0,
                 //AvailableTotal = 0,
                 TotalOnlineUsers = users,

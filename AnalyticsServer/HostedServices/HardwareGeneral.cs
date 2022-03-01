@@ -20,7 +20,7 @@ namespace AnalyticsServer.HostedServices
             _usersChannelReader = usersChannelReader;   
         }
 
-        private void UpdateGeneralHardware(CancellationToken stoppingToken)
+       /* private void UpdateGeneralHardware(CancellationToken stoppingToken)
         {
             
         _ = Task.Run(async () =>
@@ -68,12 +68,12 @@ namespace AnalyticsServer.HostedServices
                         NotWorking = notWorking,
                     };*/
 
-                    ConcurrentDictionary<string, MessagesModels.StreamMessages> Streams = new();
+                    /*ConcurrentDictionary<string, MessagesModels.StreamMessages> Streams = new();
                     Streams = Cache.StreamCache.GetAllStreams();
                     foreach (var item in Streams.Keys)
                     {
 
-                    }
+                    }*/
                     
                     /*for (int i = 0; i < HWMsg.State.Disks.Count; i++)
                     {
@@ -97,7 +97,7 @@ namespace AnalyticsServer.HostedServices
                         DiskAvailableTotal = DiskAvailable + DiskAvailableTotal;
                     }*/
 
-                    Cache.Models.Cpu cpu = new Cache.Models.Cpu
+                   /* Cache.Models.HardwareCpu cpu = new Cache.Models.Cpu
                     {
                         Gnice = HWMsg.State.Cpu.Gnice,
                         Guest = HWMsg.State.Cpu.Guest,
@@ -178,11 +178,11 @@ namespace AnalyticsServer.HostedServices
                             }
                         }
                     }*/
-                    StreamsWorking streams = new StreamsWorking
+                   /* StreamsWorking streams = new StreamsWorking
                     {
                         Working = working,
                         NotWorking = notWorking,
-                    };
+                    };*/
 
 
                     //var newSlaves = new SlaveList {    SlaveId = HWMsg.SlaveId,/* State = state*/ Streams = streams, UsersInfo = userGeneral };
@@ -230,13 +230,13 @@ namespace AnalyticsServer.HostedServices
 
 
                     
-                    var  usr = 0;
+                  /*  var  usr = 0;
                     var conn = 0;
                     foreach (var item in UsersMsg.Keys)
                     {
                         usr = usr + UsersMsg[item].NbUsers;
                         conn = conn + UsersMsg[item].NbConnections;
-                    }
+                    }*/
                     
                     
                     
@@ -252,14 +252,14 @@ namespace AnalyticsServer.HostedServices
                         
 
                     };
-                    Cache.HardwareCache.UpdateServerHardwear(Slaves);   */
+                    Cache.HardwareCache.UpdateServerHardwear(Slaves);   
                 }
             });
-        }
+        }*/
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            UpdateGeneralHardware(stoppingToken);
+            //UpdateGeneralHardware(stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(5000, stoppingToken);
