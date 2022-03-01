@@ -41,10 +41,63 @@ namespace AnalyticsServer.Cache
                 };
             }
 
+            Cache.Models.HardwareModels.cpu Cpu = new cpu()
+            {
+                User = model.State.Cpu.User,
+                Nice = model.State.Cpu.Nice,
+                Sys = model.State.Cpu.Sys,
+                IoWait = model.State.Cpu.IoWait,
+                IRQ = model.State.Cpu.IRQ,
+                Soft = model.State.Cpu.Soft,
+                Steal = model.State.Cpu.Steal,
+                Guest = model.State.Cpu.Guest,
+                Gnice = model.State.Cpu.Gnice,
+                Idle = model.State.Cpu.Idle,
+            };
+
+            Cache.Models.HardwareModels.Ram Ram = new Models.HardwareModels.Ram()
+            {
+                Total = model.State.Ram.Total,
+                Used = model.State.Ram.Used,
+                Cache = model.State.Ram.Cache,
+                Swap = model.State.Ram.Swap,
+                Boot = model.State.Ram.Boot,
+            };
+
+            Cache.Models.HardwareModels.Io Io = new Models.HardwareModels.Io()
+            {
+                NetIn = model.State.Io.NetIn,
+                NetOut = model.State.Io.NetOut,
+                Time = model.State.Io.Time,
+                DiskRead = model.State.Io.DiskRead,
+                DiskWrite = model.State.Io.DiskWrite,
+            };
+
+            List<Cache.Models.HardwareModels.Disk> Disks = new List<Models.HardwareModels.Disk>();
+
+            foreach (var item in model.State.Disks)
+            {
+                Cache.Models.HardwareModels.Disk disk = new Models.HardwareModels.Disk()
+                {
+                    FileSystem = item.FileSystem,
+                    Size = item.Size,
+                    Used = item.Used,
+                    Available = item.Available,
+                    Use = item.Use,
+                    MontedOn = item.MontedOn,
+                };
+                Disks.Add(disk);    
+            }
+
+
+
+
+
+
 
             if (model == null) return;
             if (string.IsNullOrWhiteSpace(model.SlaveId)) return;
-            var newState = new SlaveList { /*SlaveId = model.SlaveId,*/ SlaveInfo = model, UsersInfo = userPerSlave, Streams = streamsWorking };
+            var newState = new SlaveList { SlaveId = model.SlaveId, Cpu = Cpu, Ram = Ram , Io = Io , Disk = Disks, UsersInfo = userPerSlave, Streams = streamsWorking };
 
 
 
@@ -72,7 +125,7 @@ namespace AnalyticsServer.Cache
             var index = new Cache.Models.Index();
             foreach (var slave in ServersList)
             {
-                foreach (var disk in slave.Value.SlaveInfo.State.Disks)
+                foreach (var disk in slave.Value.Disk)
                 {
                     if (disk.Size.Contains("G"))
                     {
@@ -118,8 +171,8 @@ namespace AnalyticsServer.Cache
                 
                 index.DiskCapacityTotal = summ.ToString();
                 index.AvailableTotal = sumAv.ToString();
-                index.NetInTotal += slave.Value.SlaveInfo.State.Io.NetIn;
-                index.NetOutTotal += slave.Value.SlaveInfo.State.Io.NetOut;
+                index.NetInTotal += slave.Value.Io.NetIn;
+                index.NetOutTotal += slave.Value.Io.NetOut;
                 index.TotalOnlineUsers += slave.Value.UsersInfo.OnlineUsers;
                 index.TotalOnlineConnections += slave.Value.UsersInfo.OnlineConnections;
 
@@ -143,7 +196,7 @@ namespace AnalyticsServer.Cache
                 Queue<decimal> qSize = new System.Collections.Generic.Queue<decimal>();
                 foreach (var item in ServersList)
                 {
-                    foreach (var disk in item.Value.SlaveInfo.State.Disks)
+                    foreach (var disk in item.Value.Disk)
                     {
 
                         var str = disk.Size.Remove(disk.Size.Length - 1, 1);

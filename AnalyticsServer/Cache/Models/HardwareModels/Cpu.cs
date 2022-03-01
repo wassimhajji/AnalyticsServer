@@ -1,6 +1,6 @@
-﻿namespace AnalyticsServer.Cache.Models
+﻿namespace AnalyticsServer.Cache.Models.HardwareModels
 {
-    public class Cpu
+    public class cpu
     {
         public double User { get; set; }
         public double Nice { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace AnalyticsServer.Cache.Models
+﻿namespace AnalyticsServer.Cache.Models.HardwareModels
 {
     public class Disk
     {
